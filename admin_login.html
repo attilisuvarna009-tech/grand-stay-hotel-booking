@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Login - Grand Stay</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7f6;
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-box {
+            width: 380px;
+            background: white;
+            padding: 35px;
+            border-radius: 15px;
+
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+
+            text-align: center;
+        }
+
+        .login-box h1 {
+            color: #1f3d35;
+            margin-bottom: 10px;
+        }
+
+        .login-box p {
+            color: #777;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            text-align: left;
+            margin-bottom: 18px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #1f3d35;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: #1f3d35;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .login-btn:hover {
+            background: #16302a;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #842029;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 18px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #1f3d35;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-box">
+
+        <h1>Admin Login</h1>
+
+        <p>Login to access the hotel dashboard</p>
+
+        {% if error %}
+            <div class="error">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        <form method="POST" action="/admin/login">
+
+            <div class="input-group">
+                <label>Username</label>
+
+                <input
+                    type="text"
+                    name="username"
+                    placeholder="Enter username"
+                    required
+                >
+            </div>
+
+            <div class="input-group">
+                <label>Password</label>
+
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Enter password"
+                    required
+                >
+            </div>
+
+            <button type="submit" class="login-btn">
+                Login
+            </button>
+
+        </form>
+
+        <a href="/" class="back-link">
+            ← Back to Home
+        </a>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard - Grand Stay</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7f6;
+            color: #222;
+        }
+
+
+        /* ---------------- NAVIGATION ---------------- */
+
+        nav {
+            background: #1f3d35;
+            padding: 18px 50px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav h2 {
+            color: white;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 25px;
+            font-size: 15px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* ---------------- MAIN CONTAINER ---------------- */
+
+        .container {
+            width: 95%;
+            max-width: 1250px;
+            margin: 40px auto;
+        }
+
+        h1 {
+            color: #1f3d35;
+            margin-bottom: 25px;
+        }
+
+
+        /* ---------------- ANALYTICS CARDS ---------------- */
+
+        .analytics {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(5, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 30px;
+        }
+
+
+        .card {
+
+            background: white;
+
+            padding: 22px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 5px 20px rgba(0, 0, 0, 0.08);
+
+            border-left:
+                5px solid #c59b3a;
+        }
+
+
+        .card h3 {
+
+            color: #777;
+
+            font-size: 14px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .value {
+
+            color: #1f3d35;
+
+            font-size: 28px;
+
+            font-weight: bold;
+        }
+
+
+        /* ---------------- CHART ---------------- */
+
+        .chart-box {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 5px 20px rgba(0, 0, 0, 0.08);
+
+            margin-bottom: 30px;
+        }
+
+
+        .chart-box h2 {
+
+            color: #1f3d35;
+
+            margin-bottom: 25px;
+
+            font-size: 22px;
+        }
+
+
+        .bar-row {
+
+            margin-bottom: 20px;
+        }
+
+
+        .bar-label {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            margin-bottom: 7px;
+
+            font-size: 14px;
+
+            font-weight: bold;
+        }
+
+
+        .bar-bg {
+
+            width: 100%;
+
+            height: 20px;
+
+            background: #e8eeee;
+
+            border-radius: 10px;
+
+            overflow: hidden;
+        }
+
+
+        .bar {
+
+            height: 100%;
+
+            background: #1f3d35;
+
+            border-radius: 10px;
+
+            width: 0%;
+
+            transition:
+                width 0.6s ease;
+        }
+
+
+        /* ---------------- TABLE ---------------- */
+
+        .table-container {
+
+            background: white;
+
+            padding: 20px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 5px 20px rgba(0, 0, 0, 0.08);
+
+            overflow-x: auto;
+        }
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 1050px;
+        }
+
+
+        th {
+
+            background: #1f3d35;
+
+            color: white;
+
+            padding: 14px;
+
+            text-align: left;
+        }
+
+
+        td {
+
+            padding: 13px;
+
+            border-bottom:
+                1px solid #ddd;
+        }
+
+
+        tr:hover {
+
+            background: #f2f5f4;
+        }
+
+
+        /* ---------------- TOTAL AMOUNT ---------------- */
+
+        .total {
+
+            font-weight: bold;
+
+            color: #1f3d35;
+        }
+
+
+        /* ---------------- DELETE BUTTON ---------------- */
+
+        .delete-btn {
+
+            background: #c0392b;
+
+            color: white;
+
+            border: none;
+
+            padding: 8px 12px;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+        }
+
+
+        .delete-btn:hover {
+
+            background: #a93226;
+        }
+
+
+        /* ---------------- EMPTY MESSAGE ---------------- */
+
+        .empty {
+
+            text-align: center;
+
+            padding: 30px;
+
+            color: #777;
+        }
+
+
+        /* ---------------- FOOTER ---------------- */
+
+        footer {
+
+            text-align: center;
+
+            padding: 25px;
+
+            color: #666;
+
+            margin-top: 30px;
+        }
+
+
+        /* ---------------- HIDDEN DATA ---------------- */
+
+        .analytics-data {
+
+            display: none;
+        }
+
+
+        /* ---------------- RESPONSIVE ---------------- */
+
+        @media (max-width: 1100px) {
+
+            .analytics {
+
+                grid-template-columns:
+                    repeat(3, 1fr);
+            }
+        }
+
+
+        @media (max-width: 700px) {
+
+            nav {
+
+                padding: 18px 20px;
+            }
+
+
+            nav div {
+
+                display: none;
+            }
+
+
+            .analytics {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+        }
+
+
+        @media (max-width: 450px) {
+
+            .analytics {
+
+                grid-template-columns:
+                    1fr;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ================= NAVIGATION ================= -->
+
+    <nav>
+
+        <h2>
+            Grand Stay - Admin
+        </h2>
+
+
+        <div>
+
+            <a href="/">
+                Home
+            </a>
+
+
+            <a href="/rooms">
+                Rooms
+            </a>
+
+
+            <a href="/booking">
+                Book Now
+            </a>
+
+
+            <a href="/admin/logout">
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <div class="container">
+
+
+        <h1>
+            Admin Dashboard
+        </h1>
+
+
+        <!-- ================= ANALYTICS CARDS ================= -->
+
+        <div class="analytics">
+
+
+            <!-- Total Bookings -->
+
+            <div class="card">
+
+                <h3>
+                    Total Bookings
+                </h3>
+
+                <div class="value">
+
+                    {{ total_bookings | default(0) }}
+
+                </div>
+
+            </div>
+
+
+            <!-- Total Revenue -->
+
+            <div class="card">
+
+                <h3>
+                    Total Revenue
+                </h3>
+
+                <div class="value">
+
+                    ₹{{ "%.0f"|format(total_revenue | default(0)) }}
+
+                </div>
+
+            </div>
+
+
+            <!-- Standard Bookings -->
+
+            <div class="card">
+
+                <h3>
+                    Standard Bookings
+                </h3>
+
+                <div class="value">
+
+                    {{ standard_bookings | default(0) }}
+
+                </div>
+
+            </div>
+
+
+            <!-- Deluxe Bookings -->
+
+            <div class="card">
+
+                <h3>
+                    Deluxe Bookings
+                </h3>
+
+                <div class="value">
+
+                    {{ deluxe_bookings | default(0) }}
+
+                </div>
+
+            </div>
+
+
+            <!-- Luxury Bookings -->
+
+            <div class="card">
+
+                <h3>
+                    Luxury Bookings
+                </h3>
+
+                <div class="value">
+
+                    {{ luxury_bookings | default(0) }}
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- ================= HIDDEN ANALYTICS DATA ================= -->
+
+        <div
+            class="analytics-data"
+
+            id="analyticsData"
+
+            data-standard="{{ standard_bookings | default(0) }}"
+
+            data-deluxe="{{ deluxe_bookings | default(0) }}"
+
+            data-luxury="{{ luxury_bookings | default(0) }}"
+        >
+        </div>
+
+
+        <!-- ================= ROOM BOOKING ANALYTICS ================= -->
+
+        <div class="chart-box">
+
+
+            <h2>
+                📊 Room Booking Analytics
+            </h2>
+
+
+            <!-- Standard Room -->
+
+            <div class="bar-row">
+
+                <div class="bar-label">
+
+                    <span>
+                        Standard Room
+                    </span>
+
+                    <span>
+                        {{ standard_bookings | default(0) }}
+                    </span>
+
+                </div>
+
+
+                <div class="bar-bg">
+
+                    <div
+                        class="bar"
+                        id="standardBar"
+                    >
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Deluxe Room -->
+
+            <div class="bar-row">
+
+                <div class="bar-label">
+
+                    <span>
+                        Deluxe Room
+                    </span>
+
+                    <span>
+                        {{ deluxe_bookings | default(0) }}
+                    </span>
+
+                </div>
+
+
+                <div class="bar-bg">
+
+                    <div
+                        class="bar"
+                        id="deluxeBar"
+                    >
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Luxury Suite -->
+
+            <div class="bar-row">
+
+                <div class="bar-label">
+
+                    <span>
+                        Luxury Suite
+                    </span>
+
+                    <span>
+                        {{ luxury_bookings | default(0) }}
+                    </span>
+
+                </div>
+
+
+                <div class="bar-bg">
+
+                    <div
+                        class="bar"
+                        id="luxuryBar"
+                    >
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- ================= BOOKINGS TABLE ================= -->
+
+        <div class="table-container">
+
+
+            {% if bookings %}
+
+
+            <table>
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            ID
+                        </th>
+
+                        <th>
+                            Customer Name
+                        </th>
+
+                        <th>
+                            Email
+                        </th>
+
+                        <th>
+                            Phone
+                        </th>
+
+                        <th>
+                            Room
+                        </th>
+
+                        <th>
+                            Check-in
+                        </th>
+
+                        <th>
+                            Check-out
+                        </th>
+
+                        <th>
+                            Guests
+                        </th>
+
+                        <th>
+                            Total Amount
+                        </th>
+
+                        <th>
+                            Action
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                    {% for booking in bookings %}
+
+
+                    <tr>
+
+
+                        <td>
+                            {{ booking["id"] }}
+                        </td>
+
+
+                        <td>
+                            {{ booking["customer_name"] }}
+                        </td>
+
+
+                        <td>
+                            {{ booking["email"] }}
+                        </td>
+
+
+                        <td>
+                            {{ booking["phone"] }}
+                        </td>
+
+
+                        <td>
+                            {{ booking["room_type"] }}
+                        </td>
+
+
+                        <td>
+                            {{ booking["check_in"] }}
+                        </td>
+
+
+                        <td>
+                            {{ booking["check_out"] }}
+                        </td>
+
+
+                        <td>
+                            {{ booking["guests"] }}
+                        </td>
+
+
+                        <td class="total">
+
+                            ₹{{ booking["total_amount"] }}
+
+                        </td>
+
+
+                        <td>
+
+
+                            <form
+                                method="POST"
+
+                                action="/delete_booking/{{ booking['id'] }}"
+
+                                onsubmit="return confirm('Are you sure you want to delete this booking?');"
+                            >
+
+
+                                <button
+                                    type="submit"
+                                    class="delete-btn"
+                                >
+                                    Delete
+                                </button>
+
+
+                            </form>
+
+
+                        </td>
+
+
+                    </tr>
+
+
+                    {% endfor %}
+
+
+                </tbody>
+
+
+            </table>
+
+
+            {% else %}
+
+
+            <div class="empty">
+
+
+                <h3>
+                    No bookings found
+                </h3>
+
+
+                <p>
+                    There are currently no hotel bookings.
+                </p>
+
+
+            </div>
+
+
+            {% endif %}
+
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        © 2026 Grand Stay. Admin Dashboard
+
+    </footer>
+
+
+    <!-- ================= ANALYTICS SCRIPT ================= -->
+
+    <script>
+
+        const analyticsData =
+            document.getElementById("analyticsData");
+
+
+        const standard =
+            Number(
+                analyticsData.dataset.standard
+            ) || 0;
+
+
+        const deluxe =
+            Number(
+                analyticsData.dataset.deluxe
+            ) || 0;
+
+
+        const luxury =
+            Number(
+                analyticsData.dataset.luxury
+            ) || 0;
+
+
+        const maximum =
+            Math.max(
+                standard,
+                deluxe,
+                luxury,
+                1
+            );
+
+
+        /* Standard Room Bar */
+
+        document.getElementById(
+            "standardBar"
+        ).style.width =
+            (standard / maximum * 100) + "%";
+
+
+        /* Deluxe Room Bar */
+
+        document.getElementById(
+            "deluxeBar"
+        ).style.width =
+            (deluxe / maximum * 100) + "%";
+
+
+        /* Luxury Suite Bar */
+
+        document.getElementById(
+            "luxuryBar"
+        ).style.width =
+            (luxury / maximum * 100) + "%";
+
+    </script>
+
+
+</body>
+
+</html>

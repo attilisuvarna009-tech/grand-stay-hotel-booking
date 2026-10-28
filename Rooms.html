@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Our Rooms - Grand Stay</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7f6;
+            color: #222;
+        }
+
+        /* Navigation */
+
+        nav {
+            background: #1f3d35;
+            padding: 18px 6%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav h2 {
+            color: white;
+            font-size: 26px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 25px;
+            font-size: 15px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* Hero */
+
+        .hero {
+            height: 330px;
+
+            background:
+                linear-gradient(
+                    rgba(15, 42, 35, 0.72),
+                    rgba(15, 42, 35, 0.55)
+                ),
+                url("https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=1600&q=85");
+
+            background-size: cover;
+            background-position: center;
+
+            display: flex;
+            align-items: center;
+            padding: 0 8%;
+        }
+
+        .hero-content {
+            color: white;
+            max-width: 650px;
+        }
+
+        .hero-content h1 {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        /* Section */
+
+        .section {
+            width: 90%;
+            max-width: 1250px;
+            margin: 55px auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-title h2 {
+            color: #1f3d35;
+            font-size: 34px;
+            margin-bottom: 10px;
+        }
+
+        .section-title p {
+            color: #777;
+            font-size: 16px;
+        }
+
+        /* Room Cards */
+
+        .rooms-container {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 25px;
+        }
+
+        .room-card {
+            background: white;
+
+            border-radius: 15px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 5px 20px rgba(0, 0, 0, 0.08);
+
+            transition: 0.3s;
+        }
+
+        .room-card:hover {
+            transform: translateY(-7px);
+
+            box-shadow:
+                0 12px 28px rgba(0, 0, 0, 0.13);
+        }
+
+        .room-image {
+            width: 100%;
+            height: 230px;
+
+            object-fit: cover;
+        }
+
+        .room-content {
+            padding: 25px;
+        }
+
+        .room-content h3 {
+            color: #1f3d35;
+
+            font-size: 24px;
+
+            margin-bottom: 10px;
+        }
+
+        .description {
+            color: #666;
+
+            line-height: 1.6;
+
+            min-height: 75px;
+        }
+
+        /* Facilities */
+
+        .facilities {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 12px;
+
+            margin: 20px 0;
+        }
+
+        .facility {
+            color: #555;
+
+            font-size: 14px;
+        }
+
+        /* Price */
+
+        .price {
+            margin: 20px 0;
+
+            color: #1f3d35;
+
+            font-size: 26px;
+
+            font-weight: bold;
+        }
+
+        .price span {
+            color: #777;
+
+            font-size: 14px;
+
+            font-weight: normal;
+        }
+
+        /* Button */
+
+        .book-btn {
+            display: block;
+
+            width: 100%;
+
+            text-align: center;
+
+            background: #1f3d35;
+
+            color: white;
+
+            padding: 13px;
+
+            border-radius: 7px;
+
+            text-decoration: none;
+
+            font-size: 16px;
+        }
+
+        .book-btn:hover {
+            background: #16302a;
+        }
+
+        /* Footer */
+
+        footer {
+            background: #1f3d35;
+
+            color: white;
+
+            text-align: center;
+
+            padding: 25px;
+
+            margin-top: 60px;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 900px) {
+
+            .rooms-container {
+                grid-template-columns: 1fr 1fr;
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            nav {
+                padding: 18px 20px;
+            }
+
+            nav h2 {
+                font-size: 21px;
+            }
+
+            nav div {
+                display: none;
+            }
+
+            .hero {
+                height: 280px;
+                padding: 0 6%;
+            }
+
+            .hero-content h1 {
+                font-size: 36px;
+            }
+
+            .hero-content p {
+                font-size: 15px;
+            }
+
+            .rooms-container {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- Navigation -->
+
+    <nav>
+
+        <h2>Grand Stay</h2>
+
+        <div>
+
+            <a href="/">Home</a>
+
+            <a href="/rooms">Rooms</a>
+
+            <a href="/booking">Book Now</a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- Hero Section -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <h1>Our Rooms</h1>
+
+            <p>
+                Comfortable stays, modern facilities,
+                and a peaceful environment for a
+                memorable experience.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- Rooms Section -->
+
+    <section class="section">
+
+
+        <div class="section-title">
+
+            <h2>Choose Your Perfect Stay</h2>
+
+            <p>
+                Select a room that suits your comfort
+                and travel needs.
+            </p>
+
+        </div>
+
+
+        <div class="rooms-container">
+
+
+            <!-- Standard Room -->
+
+            <div class="room-card">
+
+                <img
+                    class="room-image"
+                    src="https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=900&q=85"
+                    alt="Standard Hotel Room"
+                >
+
+                <div class="room-content">
+
+                    <h3>Standard Room</h3>
+
+                    <p class="description">
+                        A comfortable and peaceful room
+                        designed for solo travelers and
+                        couples with all essential facilities.
+                    </p>
+
+
+                    <div class="facilities">
+
+                        <div class="facility">
+                            👤 Up to 2 Guests
+                        </div>
+
+                        <div class="facility">
+                            🛏️ 1 King Bed
+                        </div>
+
+                        <div class="facility">
+                            📶 Free Wi-Fi
+                        </div>
+
+                        <div class="facility">
+                            📺 Smart TV
+                        </div>
+
+                        <div class="facility">
+                            ❄️ Air Conditioning
+                        </div>
+
+                        <div class="facility">
+                            ☕ Breakfast
+                        </div>
+
+                    </div>
+
+
+                    <div class="price">
+
+                        ₹2,000
+
+                        <span>/ night</span>
+
+                    </div>
+
+
+                    <a
+                        href="/booking"
+                        class="book-btn"
+                    >
+                        Book Now →
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- Deluxe Room -->
+
+            <div class="room-card">
+
+                <img
+                    class="room-image"
+                    src="https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=900&q=85"
+                    alt="Deluxe Hotel Room"
+                >
+
+                <div class="room-content">
+
+                    <h3>Deluxe Room</h3>
+
+                    <p class="description">
+                        A spacious and elegant room offering
+                        extra comfort, modern amenities,
+                        and a relaxing atmosphere.
+                    </p>
+
+
+                    <div class="facilities">
+
+                        <div class="facility">
+                            👤 Up to 3 Guests
+                        </div>
+
+                        <div class="facility">
+                            🛏️ Comfortable Beds
+                        </div>
+
+                        <div class="facility">
+                            📶 Free Wi-Fi
+                        </div>
+
+                        <div class="facility">
+                            📺 Smart TV
+                        </div>
+
+                        <div class="facility">
+                            ❄️ Air Conditioning
+                        </div>
+
+                        <div class="facility">
+                            ☕ Breakfast
+                        </div>
+
+                    </div>
+
+
+                    <div class="price">
+
+                        ₹3,000
+
+                        <span>/ night</span>
+
+                    </div>
+
+
+                    <a
+                        href="/booking"
+                        class="book-btn"
+                    >
+                        Book Now →
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- Luxury Suite -->
+
+            <div class="room-card">
+
+                <img
+                    class="room-image"
+                    src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=900&q=85"
+                    alt="Luxury Hotel Suite"
+                >
+
+                <div class="room-content">
+
+                    <h3>Luxury Suite</h3>
+
+                    <p class="description">
+                        A premium suite with spacious interiors,
+                        stylish furnishings, and extra comfort
+                        for families and special stays.
+                    </p>
+
+
+                    <div class="facilities">
+
+                        <div class="facility">
+                            👤 Up to 4 Guests
+                        </div>
+
+                        <div class="facility">
+                            🛏️ King Bed + Sofa
+                        </div>
+
+                        <div class="facility">
+                            📶 Free Wi-Fi
+                        </div>
+
+                        <div class="facility">
+                            📺 Smart TV
+                        </div>
+
+                        <div class="facility">
+                            ❄️ Air Conditioning
+                        </div>
+
+                        <div class="facility">
+                            ☕ Breakfast
+                        </div>
+
+                    </div>
+
+
+                    <div class="price">
+
+                        ₹5,000
+
+                        <span>/ night</span>
+
+                    </div>
+
+
+                    <a
+                        href="/booking"
+                        class="book-btn"
+                    >
+                        Book Now →
+                    </a>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- Footer -->
+
+    <footer>
+
+        © 2026 Grand Stay. All Rights Reserved.
+
+        <br><br>
+
+        Stay Comfortable | Stay Happy
+
+    </footer>
+
+
+</body>
+
+</html>

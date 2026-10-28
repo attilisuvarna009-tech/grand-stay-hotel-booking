@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Guest Limit Exceeded</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f3ef;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            width: 90%;
+            max-width: 550px;
+            padding: 45px 35px;
+            border-radius: 18px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+
+        .icon {
+            width: 75px;
+            height: 75px;
+            background: #fff1f1;
+            color: #d9534f;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 38px;
+            margin: 0 auto 20px;
+        }
+
+        h1 {
+            color: #222;
+            margin-bottom: 15px;
+        }
+
+        p {
+            color: #666;
+            font-size: 17px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .room {
+            font-weight: bold;
+            color: #222;
+        }
+
+        .limit {
+            font-weight: bold;
+            color: #b8860b;
+        }
+
+        .buttons {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            text-decoration: none;
+            padding: 13px 24px;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .booking-btn {
+            background: #222;
+            color: white;
+        }
+
+        .booking-btn:hover {
+            background: #444;
+        }
+
+        .rooms-btn {
+            background: #e9e2d5;
+            color: #222;
+        }
+
+        .rooms-btn:hover {
+            background: #ddd3c2;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="icon">
+            !
+        </div>
+
+        <h1>Guest Limit Exceeded</h1>
+
+        <p>
+            The selected room cannot accommodate this many guests.
+        </p>
+
+        <p>
+            <span class="room">{{ room_type }}</span>
+            allows a maximum of
+            <span class="limit">{{ capacity }} guests</span>.
+        </p>
+
+        <div class="buttons">
+
+            <a href="/booking" class="btn booking-btn">
+                Back to Booking
+            </a>
+
+            <a href="/rooms" class="btn rooms-btn">
+                View Rooms
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Payment - Grand Stay</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7f6;
+            color: #222;
+        }
+
+        /* Navigation */
+
+        nav {
+            background: #1f3d35;
+            padding: 18px 50px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav h2 {
+            color: white;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 25px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* Main Container */
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 50px auto;
+        }
+
+        /* Payment Box */
+
+        .payment-box {
+            background: white;
+            padding: 35px;
+
+            border-radius: 15px;
+
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            text-align: center;
+            color: #1f3d35;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #777;
+            margin-bottom: 30px;
+        }
+
+        /* Booking Summary */
+
+        .booking-summary {
+            background: #f2f5f4;
+
+            padding: 20px;
+
+            border-radius: 10px;
+
+            margin-bottom: 25px;
+        }
+
+        .booking-summary h3 {
+            color: #1f3d35;
+
+            margin-bottom: 15px;
+        }
+
+        .summary-row {
+            display: flex;
+
+            justify-content: space-between;
+
+            padding: 8px 0;
+
+            border-bottom: 1px solid #ddd;
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+        }
+
+        .amount {
+            font-size: 22px;
+
+            font-weight: bold;
+
+            color: #1f3d35;
+        }
+
+        /* Payment Method */
+
+        .payment-method {
+            margin-bottom: 25px;
+        }
+
+        .payment-method label {
+            display: block;
+
+            margin-bottom: 10px;
+
+            font-weight: bold;
+        }
+
+        .payment-method select {
+            width: 100%;
+
+            padding: 12px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 7px;
+
+            font-size: 15px;
+        }
+
+        .payment-method select:focus {
+            outline: none;
+
+            border-color: #1f3d35;
+        }
+
+        /* Pay Button */
+
+        .pay-btn {
+            width: 100%;
+
+            padding: 13px;
+
+            background: #1f3d35;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 7px;
+
+            font-size: 16px;
+
+            cursor: pointer;
+        }
+
+        .pay-btn:hover {
+            background: #16302a;
+        }
+
+        /* Note */
+
+        .note {
+            text-align: center;
+
+            color: #777;
+
+            font-size: 13px;
+
+            margin-top: 15px;
+
+            line-height: 1.5;
+        }
+
+        /* Footer */
+
+        footer {
+            text-align: center;
+
+            padding: 25px;
+
+            color: #666;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- Navigation -->
+
+    <nav>
+
+        <h2>Grand Stay</h2>
+
+        <div>
+
+            <a href="/">Home</a>
+
+            <a href="/rooms">Rooms</a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- Payment Container -->
+
+    <div class="container">
+
+        <div class="payment-box">
+
+
+            <h1>Payment</h1>
+
+            <p class="subtitle">
+                Complete your booking payment
+            </p>
+
+
+            <!-- Booking Summary -->
+
+            <div class="booking-summary">
+
+                <h3>Booking Summary</h3>
+
+
+                <div class="summary-row">
+
+                    <span>Customer</span>
+
+                    <strong>
+                        {{ name }}
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>Room</span>
+
+                    <strong>
+                        {{ room_type }}
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>Check-in</span>
+
+                    <strong>
+                        {{ check_in }}
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>Check-out</span>
+
+                    <strong>
+                        {{ check_out }}
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>Guests</span>
+
+                    <strong>
+                        {{ guests }}
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>Nights</span>
+
+                    <strong>
+                        {{ nights }}
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>Total Amount</span>
+
+                    <strong class="amount">
+                        ₹{{ total_amount }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- Payment Form -->
+
+            <form
+                method="POST"
+                action="/confirm_booking"
+            >
+
+
+                <!-- Hidden Booking Details -->
+
+                <input
+                    type="hidden"
+                    name="name"
+                    value="{{ name }}"
+                >
+
+                <input
+                    type="hidden"
+                    name="email"
+                    value="{{ email }}"
+                >
+
+                <input
+                    type="hidden"
+                    name="phone"
+                    value="{{ phone }}"
+                >
+
+                <input
+                    type="hidden"
+                    name="room_type"
+                    value="{{ room_type }}"
+                >
+
+                <input
+                    type="hidden"
+                    name="check_in"
+                    value="{{ check_in }}"
+                >
+
+                <input
+                    type="hidden"
+                    name="check_out"
+                    value="{{ check_out }}"
+                >
+
+                <input
+                    type="hidden"
+                    name="guests"
+                    value="{{ guests }}"
+                >
+
+                <input
+                    type="hidden"
+                    name="nights"
+                    value="{{ nights }}"
+                >
+
+                <input
+                    type="hidden"
+                    name="total_amount"
+                    value="{{ total_amount }}"
+                >
+
+
+                <!-- Payment Method -->
+
+                <div class="payment-method">
+
+                    <label for="payment_method">
+                        Select Payment Method
+                    </label>
+
+
+                    <select
+                        id="payment_method"
+                        name="payment_method"
+                        required
+                    >
+
+                        <option value="UPI">
+                            UPI
+                        </option>
+
+                        <option value="Credit Card">
+                            Credit Card
+                        </option>
+
+                        <option value="Debit Card">
+                            Debit Card
+                        </option>
+
+                        <option value="Net Banking">
+                            Net Banking
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Pay Button -->
+
+                <button
+                    type="submit"
+                    class="pay-btn"
+                    onclick="return confirm('Proceed with payment?');"
+                >
+                    Pay Now
+                </button>
+
+
+            </form>
+
+
+            <!-- Payment Note -->
+
+            <p class="note">
+
+                This is a payment simulation for the college project.
+
+                <br>
+
+                No real payment will be processed.
+
+            </p>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- Footer -->
+
+    <footer>
+
+        © 2026 Grand Stay. All Rights Reserved.
+
+    </footer>
+
+
+</body>
+
+</html>
