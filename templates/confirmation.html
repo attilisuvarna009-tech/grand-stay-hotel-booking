@@ -1,0 +1,185 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Booking Confirmed - Grand Stay</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7f6;
+            color: #222;
+        }
+
+        nav {
+            background: #1f3d35;
+            padding: 18px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav h2 {
+            color: white;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 25px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 650px;
+            margin: 50px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .success {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .success h1 {
+            color: #1f3d35;
+            margin-bottom: 10px;
+        }
+
+        .success p {
+            color: #666;
+        }
+
+        .details {
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .label {
+            font-weight: bold;
+        }
+
+        .total {
+            font-size: 22px;
+            color: #1f3d35;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .btn {
+            display: block;
+            text-align: center;
+            margin-top: 30px;
+            padding: 14px;
+            background: #1f3d35;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <h2>Grand Stay</h2>
+
+        <div>
+            <a href="/">Home</a>
+            <a href="/rooms">Rooms</a>
+            <a href="/booking">Book Again</a>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <div class="success">
+            <h1>✓ Booking Confirmed!</h1>
+            <p>Your room has been successfully booked.</p>
+        </div>
+
+        <div class="details">
+
+            <div class="row">
+                <span class="label">Name</span>
+                <span>{{ name }}</span>
+            </div>
+
+            <div class="row">
+                <span class="label">Email</span>
+                <span>{{ email }}</span>
+            </div>
+
+            <div class="row">
+                <span class="label">Phone</span>
+                <span>{{ phone }}</span>
+            </div>
+
+            <div class="row">
+                <span class="label">Room</span>
+                <span>{{ room_type }}</span>
+            </div>
+
+            <div class="row">
+                <span class="label">Check-in</span>
+                <span>{{ check_in }}</span>
+            </div>
+
+            <div class="row">
+                <span class="label">Check-out</span>
+                <span>{{ check_out }}</span>
+            </div>
+
+            <div class="row">
+                <span class="label">Guests</span>
+                <span>{{ guests }}</span>
+            </div>
+
+            <div class="row">
+                <span class="label">Number of Nights</span>
+                <span>{{ nights }}</span>
+            </div>
+
+            <div class="row total">
+                <span>Total Amount</span>
+                <span>₹{{ total_amount }}</span>
+            </div>
+
+        </div>
+
+        <a href="/" class="btn">Back to Home</a>
+
+    </div>
+
+    <footer>
+        © 2026 Grand Stay. All Rights Reserved.
+    </footer>
+
+</body>
+</html>
+```
