@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Book Your Room - Grand Stay</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7f6;
+            color: #222;
+        }
+
+        nav {
+            background: #1f3d35;
+            padding: 18px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav h2 {
+            color: white;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 25px;
+            font-size: 16px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 700px;
+            margin: 50px auto;
+            background: white;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #1f3d35;
+            margin-bottom: 30px;
+        }
+
+        /* Smart Recommendation Box */
+
+        .smart-box {
+            background: linear-gradient(135deg, #eef7f3, #ffffff);
+            border: 1px solid #c8ddd6;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 28px;
+        }
+
+        .smart-box h2 {
+            color: #1f3d35;
+            font-size: 21px;
+            margin-bottom: 8px;
+        }
+
+        .smart-box p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .smart-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .smart-row input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .recommend-btn {
+            width: 100%;
+            margin-top: 15px;
+            padding: 13px;
+            background: #c59b3a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .recommend-btn:hover {
+            background: #a9822e;
+        }
+
+        .recommend-result {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: #1f3d35;
+            color: white;
+            border-radius: 8px;
+            line-height: 1.6;
+        }
+
+        .recommend-result strong {
+            color: #f0c75e;
+        }
+
+        /* Form */
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .btn {
+            width: 100%;
+            margin-top: 25px;
+            padding: 14px;
+            background: #1f3d35;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #2d594c;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            color: #666;
+        }
+
+        @media (max-width: 600px) {
+
+            nav {
+                padding: 18px 20px;
+            }
+
+            nav a {
+                margin-left: 10px;
+                font-size: 14px;
+            }
+
+            .container {
+                width: 94%;
+                padding: 25px;
+            }
+
+            .smart-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <h2>Grand Stay</h2>
+
+        <div>
+            <a href="/">Home</a>
+            <a href="/rooms">Rooms</a>
+            <a href="/booking">Book Now</a>
+        </div>
+    </nav>
+
+
+    <div class="container">
+
+        <h1>Book Your Room</h1>
+
+
+        <!-- SMART ROOM RECOMMENDATION -->
+
+        <div class="smart-box">
+
+            <h2>✨ Smart Room Recommendation</h2>
+
+            <p>
+                Tell us your number of guests and your maximum budget.
+                We will recommend a suitable room for you.
+            </p>
+
+            <div class="smart-row">
+
+                <div>
+                    <label for="smart_guests">
+                        Number of Guests
+                    </label>
+
+                    <input
+                        type="number"
+                        id="smart_guests"
+                        min="1"
+                        max="10"
+                        placeholder="Example: 2"
+                    >
+                </div>
+
+                <div>
+                    <label for="smart_budget">
+                        Maximum Budget / Night
+                    </label>
+
+                    <input
+                        type="number"
+                        id="smart_budget"
+                        min="2000"
+                        step="500"
+                        placeholder="Example: 3000"
+                    >
+                </div>
+
+            </div>
+
+            <button
+                type="button"
+                class="recommend-btn"
+                onclick="recommendRoom()"
+            >
+                🔍 Recommend a Room
+            </button>
+
+
+            <div
+                class="recommend-result"
+                id="recommendResult"
+            ></div>
+
+        </div>
+
+
+        <!-- BOOKING FORM -->
+
+        <form method="POST" action="/booking">
+
+            <label>Full Name</label>
+
+            <input
+                type="text"
+                name="name"
+                placeholder="Enter your name"
+                required
+            >
+
+
+            <label>Email</label>
+
+            <input
+                type="email"
+                name="email"
+                placeholder="Enter your email"
+                required
+            >
+
+
+            <label>Phone Number</label>
+
+            <input
+                type="tel"
+                name="phone"
+                placeholder="Enter your phone number"
+                required
+            >
+
+
+            <label>Select Room</label>
+
+            <select name="room_type" id="room_type" required>
+
+                <option value="">
+                    -- Select Room --
+                </option>
+
+                <option value="Standard Room">
+                    Standard Room - ₹2,000/night
+                </option>
+
+                <option value="Deluxe Room">
+                    Deluxe Room - ₹3,000/night
+                </option>
+
+                <option value="Luxury Suite">
+                    Luxury Suite - ₹5,000/night
+                </option>
+
+            </select>
+
+
+            <label>Check-in Date</label>
+
+            <input
+                type="date"
+                name="check_in"
+                required
+            >
+
+
+            <label>Check-out Date</label>
+
+            <input
+                type="date"
+                name="check_out"
+                required
+            >
+
+
+            <label>Number of Guests</label>
+
+            <input
+                type="number"
+                name="guests"
+                id="booking_guests"
+                min="1"
+                max="10"
+                placeholder="Enter number of guests"
+                required
+            >
+
+
+            <button
+                type="submit"
+                class="btn"
+            >
+                Confirm Booking
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <footer>
+        © 2026 Grand Stay. All Rights Reserved.
+    </footer>
+
+
+    <script>
+
+        function recommendRoom() {
+
+            const guests =
+                parseInt(
+                    document.getElementById("smart_guests").value
+                );
+
+            const budget =
+                parseInt(
+                    document.getElementById("smart_budget").value
+                );
+
+            const result =
+                document.getElementById("recommendResult");
+
+            const roomSelect =
+                document.getElementById("room_type");
+
+            const bookingGuests =
+                document.getElementById("booking_guests");
+
+
+            // Room data
+
+            const rooms = [
+
+                {
+                    name: "Standard Room",
+                    price: 2000,
+                    capacity: 2
+                },
+
+                {
+                    name: "Deluxe Room",
+                    price: 3000,
+                    capacity: 3
+                },
+
+                {
+                    name: "Luxury Suite",
+                    price: 5000,
+                    capacity: 4
+                }
+
+            ];
+
+
+            // Input validation
+
+            if (!guests || guests < 1) {
+
+                result.style.display = "block";
+
+                result.innerHTML =
+                    "⚠️ Please enter a valid number of guests.";
+
+                return;
+            }
+
+
+            if (!budget || budget < 2000) {
+
+                result.style.display = "block";
+
+                result.innerHTML =
+                    "⚠️ Please enter a budget of at least ₹2,000.";
+
+                return;
+            }
+
+
+            // Find rooms that satisfy
+            // both guest capacity and budget
+
+            const suitableRooms =
+                rooms.filter(room =>
+                    guests <= room.capacity &&
+                    room.price <= budget
+                );
+
+
+            if (suitableRooms.length === 0) {
+
+                result.style.display = "block";
+
+                result.innerHTML =
+                    "❌ No room matches your requirements.<br><br>" +
+                    "Try increasing your budget or reducing the number of guests.";
+
+                return;
+            }
+
+
+            // Select the highest-priced
+            // suitable room within budget
+
+            suitableRooms.sort(
+                (a, b) => b.price - a.price
+            );
+
+            const recommended =
+                suitableRooms[0];
+
+
+            // Automatically select room
+
+            roomSelect.value =
+                recommended.name;
+
+
+            // Automatically copy guests
+
+            bookingGuests.value =
+                guests;
+
+
+            // Show recommendation
+
+            result.style.display = "block";
+
+            result.innerHTML =
+                "✨ <strong>Recommended for you:</strong><br>" +
+                "<strong>" + recommended.name + "</strong><br>" +
+                "💰 ₹" + recommended.price.toLocaleString("en-IN") +
+                " / night<br>" +
+                "👤 Up to " + recommended.capacity +
+                " guests<br><br>" +
+                "This room fits your guest requirement and budget.";
+
+        }
+
+    </script>
+
+</body>
+</html>
