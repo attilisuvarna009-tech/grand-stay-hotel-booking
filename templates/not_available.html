@@ -1,0 +1,160 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Room Not Available - Grand Stay</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7f6;
+            color: #222;
+        }
+
+        nav {
+            background: #1f3d35;
+            padding: 18px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav h2 {
+            color: white;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 25px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 80px auto;
+            background: white;
+            padding: 45px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .icon {
+            font-size: 55px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #1f3d35;
+            margin-bottom: 15px;
+        }
+
+        p {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .details {
+            background: #f5f7f6;
+            margin: 25px 0;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .details p {
+            margin: 8px 0;
+            color: #333;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 14px 25px;
+            background: #1f3d35;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .btn:hover {
+            background: #2d594c;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <h2>Grand Stay</h2>
+
+        <div>
+            <a href="/">Home</a>
+            <a href="/rooms">Rooms</a>
+            <a href="/booking">Book Now</a>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <div class="icon">❌</div>
+
+        <h1>Room Not Available</h1>
+
+        <p>
+            Sorry, this room type is already booked
+            for the selected dates.
+        </p>
+
+        <div class="details">
+
+            <p>
+                <strong>Room:</strong>
+                {{ room_type }}
+            </p>
+
+            <p>
+                <strong>Check-in:</strong>
+                {{ check_in }}
+            </p>
+
+            <p>
+                <strong>Check-out:</strong>
+                {{ check_out }}
+            </p>
+
+        </div>
+
+        <p>
+            Please choose different dates or another room.
+        </p>
+
+        <a href="/booking" class="btn">
+            Try Different Dates
+        </a>
+
+    </div>
+
+    <footer>
+        © 2026 Grand Stay. All Rights Reserved.
+    </footer>
+
+</body>
+</html>
+```
