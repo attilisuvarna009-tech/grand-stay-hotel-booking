@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Booking Cancelled - Grand Stay</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7f6;
+            color: #222;
+
+            min-height: 100vh;
+
+            display: flex;
+            flex-direction: column;
+        }
+
+        nav {
+            background: #1f3d35;
+            padding: 18px 50px;
+        }
+
+        nav h2 {
+            color: white;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 550px;
+
+            margin: 70px auto;
+
+            flex: 1;
+        }
+
+        .success-box {
+            background: white;
+
+            padding: 40px;
+
+            border-radius: 15px;
+
+            text-align: center;
+
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .icon {
+            font-size: 55px;
+
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            color: #1f3d35;
+
+            margin-bottom: 15px;
+        }
+
+        p {
+            color: #666;
+
+            line-height: 1.6;
+
+            margin-bottom: 10px;
+        }
+
+        .booking-id {
+            font-weight: bold;
+
+            color: #1f3d35;
+
+            margin: 20px 0;
+        }
+
+        .home-btn {
+            display: inline-block;
+
+            margin-top: 20px;
+
+            padding: 12px 25px;
+
+            background: #1f3d35;
+
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 7px;
+        }
+
+        .home-btn:hover {
+            background: #16302a;
+        }
+
+        footer {
+            text-align: center;
+
+            padding: 25px;
+
+            color: #666;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <nav>
+
+        <h2>Grand Stay</h2>
+
+    </nav>
+
+
+    <div class="container">
+
+        <div class="success-box">
+
+            <div class="icon">
+                ✅
+            </div>
+
+            <h1>
+                Booking Cancelled
+            </h1>
+
+            <p>
+                Your hotel booking has been cancelled successfully.
+            </p>
+
+            <p class="booking-id">
+                Booking ID: {{ booking_id }}
+            </p>
+
+            <p>
+                The room is now available for new bookings.
+            </p>
+
+            <a href="/" class="home-btn">
+                Back to Home
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <footer>
+
+        © 2026 Grand Stay. All Rights Reserved.
+
+    </footer>
+
+
+</body>
+
+</html>
