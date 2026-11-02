@@ -4,6 +4,9 @@ import sqlite3
 from datetime import datetime
 
 app = Flask(__name__)
+from database import init_db
+
+init_db()
 
 # Secret key for login session
 app.secret_key = os.environ.get("SECRET_KEY", "dev-only-change-me")
