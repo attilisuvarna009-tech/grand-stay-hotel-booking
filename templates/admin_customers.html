@@ -1,1 +1,351 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Management | Grand Stay</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f3f5f9;
+            color: #202b3c;
+        }
+
+        .header {
+            background: #101b30;
+            color: white;
+            padding: 22px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .header h1 {
+            color: #e7bd72;
+            font-size: 25px;
+        }
+
+        .header a {
+            color: white;
+            text-decoration: none;
+            margin-left: 18px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 35px auto;
+        }
+
+        .heading {
+            margin-bottom: 22px;
+        }
+
+        .heading h2 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .heading p {
+            color: #697586;
+        }
+
+        .search-box {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+        }
+
+        .search-box form {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .search-box input {
+            flex: 1;
+            min-width: 220px;
+            padding: 13px;
+            border: 1px solid #d8deea;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        button, .button {
+            background: #bd9450;
+            color: white;
+            border: none;
+            padding: 13px 20px;
+            border-radius: 7px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .button.secondary {
+            background: #263650;
+        }
+
+        .card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+        }
+
+        .card h3 {
+            margin-bottom: 18px;
+            font-size: 20px;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 650px;
+        }
+
+        th, td {
+            padding: 15px 12px;
+            text-align: left;
+            border-bottom: 1px solid #edf0f5;
+        }
+
+        th {
+            background: #f7f8fb;
+            color: #526078;
+            font-size: 13px;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        .view-link {
+            color: #9b712f;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .detail-item {
+            background: #f7f8fb;
+            padding: 16px;
+            border-radius: 8px;
+        }
+
+        .detail-item span {
+            display: block;
+            color: #718096;
+            font-size: 13px;
+            margin-bottom: 7px;
+        }
+
+        .detail-item strong {
+            overflow-wrap: anywhere;
+        }
+
+        .empty {
+            padding: 25px;
+            text-align: center;
+            color: #718096;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 94%;
+            }
+
+            .header {
+                padding: 18px 4%;
+            }
+
+            .header a {
+                margin-left: 0;
+                margin-right: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="header">
+    <h1>GRAND STAY</h1>
+
+    <nav>
+        <a href="{{ url_for('admin') }}">Dashboard</a>
+        <a href="{{ url_for('home') }}">Website</a>
+        <a href="{{ url_for('admin_logout') }}">Logout</a>
+    </nav>
+</header>
+
+<main class="container">
+
+    <section class="heading">
+        <h2>Customer Management</h2>
+        <p>View customers, search their details and check their booking history.</p>
+    </section>
+
+    <section class="search-box">
+        <form method="GET" action="{{ url_for('admin_customers') }}">
+            <input
+                type="text"
+                name="search"
+                placeholder="Search by name, email or phone..."
+                value="{{ search }}"
+            >
+            <button type="submit">Search</button>
+            <a class="button secondary"
+               href="{{ url_for('admin_customers') }}">
+                Clear
+            </a>
+        </form>
+    </section>
+
+    {% if selected_customer %}
+
+    <section class="card">
+        <h3>Customer Details</h3>
+
+        <div class="details">
+            <div class="detail-item">
+                <span>Customer Name</span>
+                <strong>{{ selected_customer.customer_name }}</strong>
+            </div>
+
+            <div class="detail-item">
+                <span>Email Address</span>
+                <strong>{{ selected_customer.email }}</strong>
+            </div>
+
+            <div class="detail-item">
+                <span>Phone Number</span>
+                <strong>{{ selected_customer.phone }}</strong>
+            </div>
+
+            <div class="detail-item">
+                <span>Total Bookings</span>
+                <strong>{{ selected_customer.booking_count }}</strong>
+            </div>
+
+            <div class="detail-item">
+                <span>Total Booking Value</span>
+                <strong>₹{{ "%.2f"|format(selected_customer.total_booking_value or 0) }}</strong>
+            </div>
+        </div>
+
+        <a class="button secondary"
+           href="{{ url_for('admin_customers', search=search) }}">
+            Back to Customers
+        </a>
+    </section>
+
+    <section class="card">
+        <h3>Booking History</h3>
+
+        {% if customer_bookings %}
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>Room Type</th>
+                        <th>Check In</th>
+                        <th>Check Out</th>
+                        <th>Guests</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for booking in customer_bookings %}
+                    <tr>
+                        <td>#{{ booking.id }}</td>
+                        <td>{{ booking.room_type }}</td>
+                        <td>{{ booking.check_in }}</td>
+                        <td>{{ booking.check_out }}</td>
+                        <td>{{ booking.guests }}</td>
+                        <td>₹{{ booking.total_amount }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+            <p class="empty">No booking history found.</p>
+        {% endif %}
+    </section>
+
+    {% else %}
+
+    <section class="card">
+        <h3>All Customers</h3>
+
+        <div class="table-wrap">
+            {% if customers %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Customer Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Bookings</th>
+                        <th>Booking Value</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for customer in customers %}
+                    <tr>
+                        <td>{{ customer.customer_name }}</td>
+                        <td>{{ customer.email }}</td>
+                        <td>{{ customer.phone }}</td>
+                        <td>{{ customer.booking_count }}</td>
+                        <td>₹{{ "%.2f"|format(customer.total_booking_value or 0) }}</td>
+                        <td>
+                            <a class="view-link"
+                               href="{{ url_for('admin_customers', email=customer.email, search=search) }}">
+                                View History
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+                <p class="empty">No customers found. Customers will appear here after a booking is completed.</p>
+            {% endif %}
+        </div>
+    </section>
+
+    {% endif %}
+
+</main>
+
+</body>
+</html>
+
