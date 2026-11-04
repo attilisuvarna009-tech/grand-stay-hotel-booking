@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,6 +24,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
         nav h2 {
@@ -33,10 +36,15 @@
             color: white;
             text-decoration: none;
             margin-left: 25px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: #d4a017;
         }
 
         .hero {
-            height: 500px;
+            min-height: 500px;
             background: linear-gradient(
                 rgba(0,0,0,0.5),
                 rgba(0,0,0,0.5)
@@ -49,6 +57,7 @@
             align-items: center;
             text-align: center;
             color: white;
+            padding: 30px 15px;
         }
 
         .hero h1 {
@@ -62,12 +71,19 @@
         }
 
         .btn {
+            display: inline-block;
             background-color: #d4a017;
             color: white;
             padding: 14px 30px;
             text-decoration: none;
             border-radius: 6px;
             font-size: 17px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #b8860b;
         }
 
         .rooms {
@@ -104,12 +120,72 @@
             color: #555;
         }
 
+        .review-section {
+            background: white;
+            text-align: center;
+            padding: 50px 20px;
+            margin-top: 20px;
+        }
+
+        .review-section h2 {
+            color: #1f2937;
+            font-size: 30px;
+            margin-bottom: 12px;
+        }
+
+        .review-section p {
+            color: #555;
+            font-size: 16px;
+            margin-bottom: 22px;
+            line-height: 1.6;
+        }
+
         footer {
             background-color: #1f2937;
             color: white;
             text-align: center;
-            padding: 20px;
+            padding: 25px 15px;
             margin-top: 30px;
+        }
+
+        footer p {
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 700px) {
+            nav {
+                padding: 20px;
+                justify-content: center;
+                text-align: center;
+            }
+
+            nav div {
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            nav a {
+                margin-left: 0;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero p {
+                font-size: 17px;
+            }
+
+            .rooms {
+                padding: 35px 15px;
+            }
+
+            .room {
+                width: 100%;
+                max-width: 350px;
+            }
         }
     </style>
 </head>
@@ -123,6 +199,7 @@
             <a href="/">Home</a>
             <a href="/rooms">Rooms</a>
             <a href="/booking">Book Now</a>
+            <a href="/review">Customer Reviews</a>
         </div>
     </nav>
 
@@ -170,8 +247,29 @@
 
     </section>
 
+    <section class="review-section">
+
+        <h2>Share Your Experience ⭐</h2>
+
+        <p>
+            Stayed with us? We would love to hear about your experience.
+            Rate your stay and share your valuable feedback!
+        </p>
+
+        <a href="/review" class="btn">
+            ⭐ Rate Your Stay
+        </a>
+
+    </section>
+
     <footer>
+
         <p>© 2026 Grand Stay Hotel | Hotel Room Booking System</p>
+
+        <a href="/review" class="btn">
+            Write a Review
+        </a>
+
     </footer>
 
 </body>
