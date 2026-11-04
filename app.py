@@ -262,7 +262,6 @@ def confirm_booking():
         if room is None:
             return "Room not found.", 404
 
-        # Calculate price on the server, not from the submitted form.
         total_amount = room["price"] * nights
 
         cursor = connection.execute("""
@@ -363,6 +362,15 @@ def cancel_booking():
         )
 
     return render_template("cancel_booking.html")
+
+
+# ==========================================================
+# CUSTOMER REVIEW PAGE
+# ==========================================================
+
+@app.route("/review")
+def review():
+    return render_template("review.html")
 
 
 # ==========================================================
