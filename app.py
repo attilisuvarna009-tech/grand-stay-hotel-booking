@@ -85,7 +85,6 @@ def get_room_price(connection, room_type):
 def home():
     connection = get_db_connection()
 
-    # Only genuine customer reviews appear as public testimonials.
     rating_data = connection.execute("""
         SELECT
             COUNT(*) AS total_reviews,
@@ -387,19 +386,28 @@ def submit_review():
     email = request.form.get("email", "").strip()
     feedback = request.form.get("feedback", "").strip()
 
+    # All review errors return to the styled review page.
+    def review_error(message):
+        flash(message, "error")
+        return redirect(url_for("review"))
+
     try:
         rating = int(request.form.get("rating", "0"))
-    except ValueError:
-        return "Please select a valid rating.", 400
+    except (ValueError, TypeError):
+        return review_error("Please select a valid rating.")
 
     if not booking_id.isdigit() or not email:
-        return "Please enter a valid booking ID and email.", 400
+        return review_error(
+            "Please enter a valid booking ID and email."
+        )
 
     if rating not in range(1, 6):
-        return "Please select a rating from 1 to 5.", 400
+        return review_error("Please select a rating from 1 to 5.")
 
     if len(feedback) < 5 or len(feedback) > 1000:
-        return "Feedback must contain 5 to 1000 characters.", 400
+        return review_error(
+            "Feedback must contain 5 to 1000 characters."
+        )
 
     connection = get_db_connection()
 
@@ -412,21 +420,31 @@ def submit_review():
         """, (booking_id, email)).fetchone()
 
         if booking is None:
-            return "Booking not found. Check your booking ID and email.", 404
+            return review_error(
+                "Booking not found. Check your booking ID and email."
+            )
 
         if booking["status"] != "Confirmed":
-            return "Only confirmed bookings can submit reviews.", 400
+            return review_error(
+                "Only confirmed bookings can submit reviews. "
+                "Please contact the hotel if you need help."
+            )
 
         if booking["check_out"] >= date.today().isoformat():
-            return "You can submit feedback after your check-out date.", 400
+            return review_error(
+                "You can submit feedback after your check-out date."
+            )
 
         existing_review = connection.execute("""
-            SELECT id FROM reviews
+            SELECT id
+            FROM reviews
             WHERE booking_id = ?
         """, (booking_id,)).fetchone()
 
         if existing_review:
-            return "A review has already been submitted for this booking.", 409
+            return review_error(
+                "A review has already been submitted for this booking."
+            )
 
         connection.execute("""
             INSERT INTO reviews (
@@ -450,14 +468,23 @@ def submit_review():
 
         connection.commit()
 
+    except sqlite3.Error:
+        connection.rollback()
+        app.logger.exception("Review submission failed.")
+
+        return review_error(
+            "We could not save your review. Please try again later."
+        )
+
     finally:
         connection.close()
 
-    return """
-        <h2>Thank you for your feedback!</h2>
-        <p>Your review has been submitted successfully.</p>
-        <a href="/">Return to Grand Stay</a>
-    """
+    flash(
+        "Thank you! Your review has been submitted successfully.",
+        "success"
+    )
+
+    return redirect(url_for("review"))
 
 
 # ==========================================================
@@ -721,9 +748,6 @@ def create_demo_data():
     if not admin_required():
         return redirect(url_for("admin_login"))
 
-    # Fictional sample data for academic demonstration only.
-    # These are not genuine customer experiences.
-
     demo_customers = [
         {
             "name": "Priya Sharma",
@@ -881,9 +905,6 @@ def create_demo_data():
     connection = get_db_connection()
 
     try:
-        # Remove only previous demo reviews and bookings.
-        # Genuine customer bookings and reviews are preserved.
-
         connection.execute("""
             DELETE FROM reviews
             WHERE is_demo = 1
@@ -918,9 +939,7 @@ def create_demo_data():
                 days=customer["nights"]
             )
 
-            total_amount = (
-                room["price"] * customer["nights"]
-            )
+            total_amount = room["price"] * customer["nights"]
 
             cursor = connection.execute("""
                 INSERT INTO bookings (
