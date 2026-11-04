@@ -7,6 +7,19 @@
     <title>Grand Stay | Admin Dashboard</title>
 
     <style>
+        :root {
+            --navy: #101f3c;
+            --navy-light: #1c3157;
+            --navy-hover: #263f6b;
+            --gold: #d4af61;
+            --background: #f3f5f9;
+            --text: #263247;
+            --muted: #718096;
+            --border: #e2e8f0;
+            --white: #ffffff;
+            --red: #b83232;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -15,8 +28,8 @@
         }
 
         body {
-            background: #f4f7f5;
-            color: #26352c;
+            background: var(--background);
+            color: var(--text);
         }
 
         .layout {
@@ -24,23 +37,26 @@
             min-height: 100vh;
         }
 
+        /* SIDEBAR */
         .sidebar {
             width: 240px;
-            background: #123c2b;
+            flex-shrink: 0;
+            background: var(--navy);
             color: white;
             padding: 28px 18px;
+            min-height: 100vh;
         }
 
         .logo {
             font-size: 25px;
             font-weight: bold;
-            color: #e7c66b;
+            color: var(--gold);
             margin-bottom: 35px;
         }
 
         .sidebar a {
             display: block;
-            color: white;
+            color: #e8edf7;
             text-decoration: none;
             padding: 13px 14px;
             margin: 7px 0;
@@ -49,10 +65,11 @@
         }
 
         .sidebar a:hover {
-            background: #28583f;
-            color: #e7c66b;
+            background: var(--navy-hover);
+            color: var(--gold);
         }
 
+        /* MAIN CONTENT */
         .main {
             flex: 1;
             padding: 30px;
@@ -69,14 +86,15 @@
         }
 
         .topbar h1 {
-            color: #123c2b;
+            color: var(--navy);
         }
 
         .topbar p {
-            color: #777;
+            color: var(--muted);
             margin-top: 6px;
         }
 
+        /* STATISTICS */
         .stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
@@ -85,15 +103,15 @@
         }
 
         .stat-card {
-            background: white;
+            background: var(--white);
             padding: 23px;
             border-radius: 12px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
-            border-left: 5px solid #c6a64b;
+            box-shadow: 0 3px 12px rgba(16, 31, 60, 0.07);
+            border-left: 5px solid var(--gold);
         }
 
         .stat-card h3 {
-            color: #777;
+            color: var(--muted);
             font-size: 14px;
             margin-bottom: 12px;
         }
@@ -101,22 +119,25 @@
         .stat-card p {
             font-size: 25px;
             font-weight: bold;
-            color: #123c2b;
+            color: var(--navy);
+            overflow-wrap: anywhere;
         }
 
+        /* SECTIONS */
         .section {
-            background: white;
+            background: var(--white);
             padding: 24px;
             border-radius: 12px;
             margin-bottom: 25px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+            box-shadow: 0 3px 12px rgba(16, 31, 60, 0.05);
         }
 
         .section h2 {
-            color: #123c2b;
+            color: var(--navy);
             margin-bottom: 18px;
         }
 
+        /* BUTTONS */
         .actions {
             display: flex;
             flex-wrap: wrap;
@@ -125,7 +146,7 @@
 
         .btn {
             display: inline-block;
-            background: #123c2b;
+            background: var(--navy);
             color: white;
             border: none;
             padding: 11px 17px;
@@ -133,25 +154,33 @@
             text-decoration: none;
             cursor: pointer;
             font-size: 14px;
+            transition: 0.3s;
         }
 
         .btn:hover {
-            background: #28583f;
+            background: var(--navy-hover);
         }
 
         .btn.gold {
-            background: #c6a64b;
-            color: #17251c;
+            background: var(--gold);
+            color: var(--navy);
+            font-weight: bold;
+        }
+
+        .btn.gold:hover {
+            background: #bd984b;
         }
 
         .btn.danger {
-            background: #b83232;
+            background: var(--red);
+            color: white;
         }
 
         .btn.danger:hover {
             background: #8f2020;
         }
 
+        /* ANALYTICS */
         .analytics {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -160,28 +189,34 @@
 
         .analytics-item {
             padding: 15px;
-            background: #f7f9f7;
+            background: #f5f7fb;
+            border: 1px solid var(--border);
             border-radius: 8px;
         }
 
         .analytics-item h4 {
             margin-bottom: 10px;
-            color: #34513e;
+            color: var(--navy-light);
+        }
+
+        .analytics-item p {
+            margin-bottom: 10px;
         }
 
         .bar {
             height: 10px;
-            background: #e3e8e3;
+            background: #e3e8f0;
             border-radius: 10px;
             overflow: hidden;
         }
 
         .bar-fill {
             height: 100%;
-            background: #c6a64b;
+            background: linear-gradient(90deg, var(--navy), var(--gold));
             border-radius: 10px;
         }
 
+        /* RESERVATION TABLE */
         .table-wrapper {
             overflow-x: auto;
         }
@@ -194,20 +229,21 @@
 
         th, td {
             padding: 13px 12px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--border);
             text-align: left;
             font-size: 14px;
         }
 
         th {
-            background: #f2f6f2;
-            color: #123c2b;
+            background: #eaf0f8;
+            color: var(--navy);
         }
 
         tr:hover {
-            background: #fafcf9;
+            background: #f7f9fc;
         }
 
+        /* BOOKING STATUS */
         .status {
             display: inline-block;
             padding: 5px 9px;
@@ -231,7 +267,7 @@
             color: #a02020;
         }
 
-        /* Demo and real customer labels */
+        /* DEMO AND REAL LABELS */
         .tag {
             display: inline-block;
             padding: 4px 8px;
@@ -247,10 +283,12 @@
             color: #17652b;
         }
 
+        /* FLASH MESSAGE */
         .flash {
             padding: 12px 15px;
-            background: #e1f5e5;
-            color: #17652b;
+            background: #e1f0ff;
+            color: var(--navy);
+            border-left: 4px solid var(--gold);
             border-radius: 7px;
             margin-bottom: 18px;
         }
@@ -258,9 +296,10 @@
         .empty {
             text-align: center;
             padding: 25px;
-            color: #777;
+            color: var(--muted);
         }
 
+        /* MOBILE RESPONSIVE */
         @media (max-width: 768px) {
             .layout {
                 flex-direction: column;
@@ -268,6 +307,7 @@
 
             .sidebar {
                 width: 100%;
+                min-height: auto;
             }
 
             .sidebar a {
@@ -309,6 +349,7 @@
                 <h1>Admin Dashboard</h1>
                 <p>Welcome to Grand Stay Hotel Management</p>
             </div>
+
             <a href="{{ url_for('admin_logout') }}" class="btn danger">
                 Logout
             </a>
@@ -322,6 +363,7 @@
             {% endif %}
         {% endwith %}
 
+        <!-- DASHBOARD STATISTICS -->
         <div class="stats">
 
             <div class="stat-card">
@@ -346,10 +388,12 @@
 
         </div>
 
+        <!-- MANAGEMENT ACTIONS -->
         <section class="section">
             <h2>Management Actions</h2>
 
             <div class="actions">
+
                 <a href="{{ url_for('admin_customers') }}" class="btn">
                     Manage Customers
                 </a>
@@ -366,9 +410,11 @@
                         Generate 10 Demo Customers & Reviews
                     </button>
                 </form>
+
             </div>
         </section>
 
+        <!-- ROOM BOOKING ANALYTICS -->
         <section class="section">
             <h2>Room Booking Analytics</h2>
 
@@ -377,6 +423,7 @@
                 <div class="analytics-item">
                     <h4>Standard Room</h4>
                     <p>{{ standard_bookings }} Bookings</p>
+
                     <div class="bar">
                         <div class="bar-fill"
                              style="width: {{ [standard_bookings * 10, 100]|min }}%;">
@@ -387,6 +434,7 @@
                 <div class="analytics-item">
                     <h4>Deluxe Room</h4>
                     <p>{{ deluxe_bookings }} Bookings</p>
+
                     <div class="bar">
                         <div class="bar-fill"
                              style="width: {{ [deluxe_bookings * 10, 100]|min }}%;">
@@ -397,6 +445,7 @@
                 <div class="analytics-item">
                     <h4>Luxury Suite</h4>
                     <p>{{ luxury_bookings }} Bookings</p>
+
                     <div class="bar">
                         <div class="bar-fill"
                              style="width: {{ [luxury_bookings * 10, 100]|min }}%;">
@@ -407,6 +456,7 @@
             </div>
         </section>
 
+        <!-- ALL RESERVATIONS -->
         <section class="section">
             <h2>All Reservations</h2>
 
