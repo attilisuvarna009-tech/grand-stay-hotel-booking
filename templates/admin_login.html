@@ -1,10 +1,12 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grand Stay | Admin Login</title>
 
-    <title>Admin Login - Grand Stay</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     <style>
         * {
@@ -14,142 +16,322 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
-            background: #f5f7f6;
             min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            background:
+                linear-gradient(110deg, rgba(5, 15, 30, 0.94), rgba(5, 20, 38, 0.55)),
+                url("https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=2000&q=90");
+
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
 
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 25px;
+            overflow-x: hidden;
         }
 
-        .login-box {
-            width: 380px;
-            background: white;
-            padding: 35px;
-            border-radius: 15px;
-
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-
-            text-align: center;
+        .login-container {
+            width: 100%;
+            max-width: 1050px;
+            min-height: 610px;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 25px;
+            overflow: hidden;
+            background: rgba(10, 25, 43, 0.55);
+            backdrop-filter: blur(18px);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.55);
+            animation: appear 1s ease;
         }
 
-        .login-box h1 {
-            color: #1f3d35;
+        .welcome-section {
+            padding: 65px 55px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: white;
+            background: linear-gradient(
+                145deg,
+                rgba(8, 27, 48, 0.55),
+                rgba(4, 13, 26, 0.2)
+            );
+        }
+
+        .brand {
+            color: #e6bd72;
+            font-family: 'Playfair Display', serif;
+            font-size: 30px;
+            letter-spacing: 2px;
+        }
+
+        .welcome-content {
+            margin-top: 65px;
+        }
+
+        .welcome-content h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 48px;
+            line-height: 1.2;
+            margin-bottom: 22px;
+        }
+
+        .welcome-content h1 span {
+            color: #e6bd72;
+        }
+
+        .welcome-content p {
+            color: #d7e0eb;
+            line-height: 1.9;
+            font-size: 14px;
+            max-width: 390px;
+        }
+
+        .welcome-footer {
+            color: #c3cbd4;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+
+        .login-section {
+            padding: 65px 45px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            background: rgba(8, 22, 39, 0.82);
+            color: white;
+        }
+
+        .login-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 35px;
+            color: #f0cc87;
             margin-bottom: 10px;
         }
 
-        .login-box p {
-            color: #777;
-            margin-bottom: 25px;
+        .subtitle {
+            color: #c2cbd6;
+            font-size: 13px;
+            margin-bottom: 38px;
         }
 
         .input-group {
-            text-align: left;
-            margin-bottom: 18px;
+            margin-bottom: 24px;
         }
 
         .input-group label {
             display: block;
-            margin-bottom: 7px;
-            font-weight: bold;
-            color: #333;
+            font-size: 13px;
+            margin-bottom: 10px;
+            color: #e8eaf0;
         }
 
         .input-group input {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 7px;
-            font-size: 15px;
+            padding: 15px 16px;
+            border: 1px solid rgba(230,189,114,0.35);
+            border-radius: 10px;
+            outline: none;
+            background: rgba(255,255,255,0.08);
+            color: white;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .input-group input::placeholder {
+            color: #aab5c3;
         }
 
         .input-group input:focus {
-            outline: none;
-            border-color: #1f3d35;
+            border-color: #e6bd72;
+            box-shadow: 0 0 15px rgba(230,189,114,0.2);
+        }
+
+        .show-password {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-size: 12px;
+            color: #cbd3dd;
+            margin-top: -8px;
+            margin-bottom: 25px;
+            cursor: pointer;
+        }
+
+        .show-password input {
+            accent-color: #d9ad63;
         }
 
         .login-btn {
             width: 100%;
-            padding: 12px;
-            background: #1f3d35;
-            color: white;
+            padding: 15px;
             border: none;
-            border-radius: 7px;
-            font-size: 16px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #f0d18e, #b8873f);
+            color: #142238;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 1px;
             cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 8px 25px rgba(190,145,73,0.25);
         }
 
         .login-btn:hover {
-            background: #16302a;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(230,189,114,0.35);
         }
 
-        .error {
-            background: #f8d7da;
-            color: #842029;
-            padding: 10px;
-            border-radius: 6px;
-            margin-bottom: 18px;
+        .security-note {
+            margin-top: 28px;
+            text-align: center;
+            color: #aeb9c7;
+            font-size: 11px;
+            line-height: 1.7;
         }
 
-        .back-link {
-            display: inline-block;
-            margin-top: 20px;
-            color: #1f3d35;
-            text-decoration: none;
+        .error-message {
+            background: rgba(220, 60, 60, 0.16);
+            border: 1px solid rgba(255, 100, 100, 0.4);
+            color: #ffb4b4;
+            padding: 11px;
+            border-radius: 8px;
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+
+        @keyframes appear {
+            from {
+                opacity: 0;
+                transform: translateY(25px) scale(0.97);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @media(max-width: 750px) {
+            .login-container {
+                grid-template-columns: 1fr;
+                max-width: 480px;
+            }
+
+            .welcome-section {
+                padding: 35px;
+                min-height: 250px;
+            }
+
+            .welcome-content {
+                margin-top: 35px;
+            }
+
+            .welcome-content h1 {
+                font-size: 35px;
+            }
+
+            .welcome-footer {
+                margin-top: 30px;
+            }
+
+            .login-section {
+                padding: 40px 30px;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <div class="login-box">
+    <div class="login-container">
 
-        <h1>Admin Login</h1>
+        <section class="welcome-section">
 
-        <p>Login to access the hotel dashboard</p>
+            <div class="brand">✦ GRAND STAY</div>
 
-        {% if error %}
-            <div class="error">
-                {{ error }}
-            </div>
-        {% endif %}
+            <div class="welcome-content">
+                <h1>Welcome to<br><span>Luxury Living.</span></h1>
 
-        <form method="POST" action="/admin/login">
-
-            <div class="input-group">
-                <label>Username</label>
-
-                <input
-                    type="text"
-                    name="username"
-                    placeholder="Enter username"
-                    required
-                >
+                <p>
+                    Experience premium hospitality management.
+                    Manage reservations, customers and your hotel
+                    operations from one elegant dashboard.
+                </p>
             </div>
 
-            <div class="input-group">
-                <label>Password</label>
-
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Enter password"
-                    required
-                >
+            <div class="welcome-footer">
+                EXCELLENCE IN HOSPITALITY · EST. GRAND STAY
             </div>
 
-            <button type="submit" class="login-btn">
-                Login
-            </button>
+        </section>
 
-        </form>
+        <section class="login-section">
 
-        <a href="/" class="back-link">
-            ← Back to Home
-        </a>
+            <h2>Admin Login</h2>
+
+            <p class="subtitle">
+                Sign in to access your management dashboard.
+            </p>
+
+            {% if error %}
+                <div class="error-message">{{ error }}</div>
+            {% endif %}
+
+            <form method="POST" action="{{ url_for('admin_login') }}">
+
+                <div class="input-group">
+                    <label for="username">Admin Username</label>
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Enter your username"
+                        required
+                        autocomplete="username">
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        required
+                        autocomplete="current-password">
+                </div>
+
+                <label class="show-password">
+                    <input type="checkbox" id="showPassword">
+                    Show password
+                </label>
+
+                <button type="submit" class="login-btn">
+                    LOGIN TO DASHBOARD →
+                </button>
+
+            </form>
+
+            <p class="security-note">
+                🔒 Secure Administrator Access<br>
+                Grand Stay Hotel Management System
+            </p>
+
+        </section>
 
     </div>
+
+    <script>
+        const showPassword = document.getElementById("showPassword");
+        const passwordInput = document.getElementById("password");
+
+        showPassword.addEventListener("change", function () {
+            passwordInput.type = this.checked ? "text" : "password";
+        });
+    </script>
 
 </body>
 </html>
