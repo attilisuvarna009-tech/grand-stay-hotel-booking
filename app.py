@@ -85,16 +85,19 @@ def get_room_price(connection, room_type):
 def home():
     connection = get_db_connection()
 
+    # Only genuine customer reviews appear as public testimonials.
     rating_data = connection.execute("""
         SELECT
             COUNT(*) AS total_reviews,
             ROUND(AVG(rating), 1) AS average_rating
         FROM reviews
+        WHERE is_demo = 0
     """).fetchone()
 
     latest_reviews = connection.execute("""
-        SELECT customer_name, rating, feedback, created_at, is_demo
+        SELECT customer_name, rating, feedback, created_at
         FROM reviews
+        WHERE is_demo = 0
         ORDER BY id DESC
         LIMIT 6
     """).fetchall()
@@ -709,7 +712,7 @@ def delete_review(review_id):
 
 
 # ==========================================================
-# CREATE 10 DEMO CUSTOMERS, BOOKINGS AND REVIEWS
+# CREATE OR REPLACE 10 DEMO CUSTOMERS, BOOKINGS AND REVIEWS
 # ==========================================================
 
 @app.route("/admin/create_demo_data", methods=["POST"])
@@ -718,85 +721,206 @@ def create_demo_data():
     if not admin_required():
         return redirect(url_for("admin_login"))
 
+    # Fictional sample data for academic demonstration only.
+    # These are not genuine customer experiences.
+
     demo_customers = [
-        (
-            "Priya Sharma", "priya.demo@example.com", "9000000001",
-            "Standard Room", 5,
-            "The room was clean and comfortable. Excellent experience!"
-        ),
-        (
-            "Rahul Verma", "rahul.demo@example.com", "9000000002",
-            "Deluxe Room", 4,
-            "Good service and comfortable rooms. Enjoyed my stay."
-        ),
-        (
-            "Ananya Reddy", "ananya.demo@example.com", "9000000003",
-            "Luxury Suite", 5,
-            "Beautiful suite, friendly staff and wonderful hospitality."
-        ),
-        (
-            "Karthik Kumar", "karthik.demo@example.com", "9000000004",
-            "Standard Room", 4,
-            "A pleasant stay with good facilities."
-        ),
-        (
-            "Sneha Patel", "sneha.demo@example.com", "9000000005",
-            "Deluxe Room", 5,
-            "Very clean room and excellent customer service."
-        ),
-        (
-            "Arjun Rao", "arjun.demo@example.com", "9000000006",
-            "Luxury Suite", 3,
-            "The stay was good. Some improvements would make it better."
-        ),
-        (
-            "Divya Nair", "divya.demo@example.com", "9000000007",
-            "Standard Room", 5,
-            "Comfortable room and peaceful atmosphere."
-        ),
-        (
-            "Rohit Mehta", "rohit.demo@example.com", "9000000008",
-            "Deluxe Room", 4,
-            "Good experience and helpful staff."
-        ),
-        (
-            "Meena Das", "meena.demo@example.com", "9000000009",
-            "Standard Room", 3,
-            "The room was fine and the overall experience was average."
-        ),
-        (
-            "Vikas Singh", "vikas.demo@example.com", "9000000010",
-            "Luxury Suite", 5,
-            "Excellent luxury experience. Would definitely recommend!"
-        )
+        {
+            "name": "Priya Sharma",
+            "email": "priya.demo@example.com",
+            "phone": "9000000001",
+            "room": "Standard Room",
+            "guests": 2,
+            "nights": 2,
+            "days_ago": 15,
+            "rating": 5,
+            "feedback": (
+                "I had a very comfortable stay at Grand Stay. "
+                "The room was clean, the bed was comfortable, "
+                "and the staff were polite and helpful. "
+                "The check-in process was also smooth."
+            )
+        },
+        {
+            "name": "Rahul Verma",
+            "email": "rahul.demo@example.com",
+            "phone": "9000000002",
+            "room": "Deluxe Room",
+            "guests": 2,
+            "nights": 3,
+            "days_ago": 20,
+            "rating": 4,
+            "feedback": (
+                "The Deluxe Room was spacious and well maintained. "
+                "Room service was quick and the staff were friendly. "
+                "Overall, it was a pleasant experience."
+            )
+        },
+        {
+            "name": "Ananya Reddy",
+            "email": "ananya.demo@example.com",
+            "phone": "9000000003",
+            "room": "Luxury Suite",
+            "guests": 3,
+            "nights": 2,
+            "days_ago": 25,
+            "rating": 5,
+            "feedback": (
+                "The Luxury Suite was beautiful and comfortable. "
+                "The interior was impressive, and the housekeeping "
+                "team did an excellent job. I enjoyed the hospitality."
+            )
+        },
+        {
+            "name": "Karthik Kumar",
+            "email": "karthik.demo@example.com",
+            "phone": "9000000004",
+            "room": "Standard Room",
+            "guests": 1,
+            "nights": 1,
+            "days_ago": 30,
+            "rating": 4,
+            "feedback": (
+                "A good hotel for a short stay. The room was tidy, "
+                "the check-in was simple, and the staff were helpful. "
+                "I would consider staying here again."
+            )
+        },
+        {
+            "name": "Sneha Patel",
+            "email": "sneha.demo@example.com",
+            "phone": "9000000005",
+            "room": "Deluxe Room",
+            "guests": 3,
+            "nights": 2,
+            "days_ago": 35,
+            "rating": 5,
+            "feedback": (
+                "I really liked the cleanliness and atmosphere "
+                "of the hotel. The room was comfortable, and the "
+                "staff responded quickly whenever we needed help."
+            )
+        },
+        {
+            "name": "Arjun Rao",
+            "email": "arjun.demo@example.com",
+            "phone": "9000000006",
+            "room": "Luxury Suite",
+            "guests": 2,
+            "nights": 3,
+            "days_ago": 40,
+            "rating": 3,
+            "feedback": (
+                "The suite was spacious and the location was convenient. "
+                "However, room service took longer than expected. "
+                "The overall stay was satisfactory."
+            )
+        },
+        {
+            "name": "Divya Nair",
+            "email": "divya.demo@example.com",
+            "phone": "9000000007",
+            "room": "Standard Room",
+            "guests": 2,
+            "nights": 2,
+            "days_ago": 45,
+            "rating": 5,
+            "feedback": (
+                "The room was neat and peaceful. The housekeeping "
+                "staff maintained everything properly, and the "
+                "front desk team was welcoming. A lovely stay."
+            )
+        },
+        {
+            "name": "Rohit Mehta",
+            "email": "rohit.demo@example.com",
+            "phone": "9000000008",
+            "room": "Deluxe Room",
+            "guests": 2,
+            "nights": 1,
+            "days_ago": 50,
+            "rating": 4,
+            "feedback": (
+                "Good room, comfortable beds, and courteous staff. "
+                "The booking and check-out processes were easy. "
+                "I had a good overall experience."
+            )
+        },
+        {
+            "name": "Meena Das",
+            "email": "meena.demo@example.com",
+            "phone": "9000000009",
+            "room": "Standard Room",
+            "guests": 1,
+            "nights": 2,
+            "days_ago": 55,
+            "rating": 3,
+            "feedback": (
+                "The room was clean and suitable for a short visit. "
+                "Some facilities could be improved, but the staff "
+                "were polite and the stay was satisfactory."
+            )
+        },
+        {
+            "name": "Vikas Singh",
+            "email": "vikas.demo@example.com",
+            "phone": "9000000010",
+            "room": "Luxury Suite",
+            "guests": 4,
+            "nights": 2,
+            "days_ago": 60,
+            "rating": 5,
+            "feedback": (
+                "The suite offered plenty of space for our family. "
+                "The room was comfortable and well maintained. "
+                "The staff made the stay pleasant and relaxing."
+            )
+        }
     ]
 
     connection = get_db_connection()
-    created_count = 0
 
     try:
-        for index, customer in enumerate(demo_customers):
+        # Remove only previous demo reviews and bookings.
+        # Genuine customer bookings and reviews are preserved.
 
-            name, email, phone, room_type, rating, feedback = customer
+        connection.execute("""
+            DELETE FROM reviews
+            WHERE is_demo = 1
+               OR booking_id IN (
+                    SELECT id
+                    FROM bookings
+                    WHERE is_demo = 1
+               )
+        """)
 
-            existing = connection.execute("""
-                SELECT id
-                FROM bookings
-                WHERE email = ? AND is_demo = 1
-            """, (email,)).fetchone()
+        connection.execute("""
+            DELETE FROM bookings
+            WHERE is_demo = 1
+        """)
 
-            if existing:
-                continue
+        created_count = 0
 
-            room = get_room_price(connection, room_type)
+        for customer in demo_customers:
+
+            room = get_room_price(connection, customer["room"])
 
             if room is None:
-                continue
+                raise ValueError(
+                    f"Room not found: {customer['room']}"
+                )
 
-            checkout_date = date.today() - timedelta(days=2 + index)
-            checkin_date = checkout_date - timedelta(days=2)
+            checkout_date = date.today() - timedelta(
+                days=customer["days_ago"]
+            )
 
-            total_amount = room["price"] * 2
+            checkin_date = checkout_date - timedelta(
+                days=customer["nights"]
+            )
+
+            total_amount = (
+                room["price"] * customer["nights"]
+            )
 
             cursor = connection.execute("""
                 INSERT INTO bookings (
@@ -813,13 +937,13 @@ def create_demo_data():
                 )
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'Confirmed', 1)
             """, (
-                name,
-                email,
-                phone,
-                room_type,
+                customer["name"],
+                customer["email"],
+                customer["phone"],
+                customer["room"],
                 checkin_date.isoformat(),
                 checkout_date.isoformat(),
-                2,
+                customer["guests"],
                 total_amount
             ))
 
@@ -838,28 +962,36 @@ def create_demo_data():
                 VALUES (?, ?, ?, ?, ?, ?, 1)
             """, (
                 booking_id,
-                name,
-                email,
-                rating,
-                feedback,
-                datetime.now().isoformat()
+                customer["name"],
+                customer["email"],
+                customer["rating"],
+                customer["feedback"],
+                checkout_date.isoformat()
             ))
 
             created_count += 1
 
         connection.commit()
 
+        flash(
+            f"Successfully refreshed {created_count} demo customers, "
+            "bookings and reviews. Genuine customer records were preserved.",
+            "success"
+        )
+
     except Exception:
         connection.rollback()
-        raise
+        app.logger.exception("Demo data generation failed.")
+        flash(
+            "Unable to generate demo data. No changes were saved. "
+            "Please check the application logs.",
+            "error"
+        )
 
     finally:
         connection.close()
 
-    return (
-        f"Created {created_count} demo customers, bookings and reviews. "
-        f"{len(demo_customers) - created_count} demo records already existed."
-    )
+    return redirect(url_for("admin"))
 
 
 # ==========================================================
@@ -884,6 +1016,8 @@ def delete_booking(booking_id):
 
     connection.commit()
     connection.close()
+
+    flash("Booking deleted successfully.", "success")
 
     return redirect(url_for("admin"))
 
