@@ -37,7 +37,6 @@
             min-height: 100vh;
         }
 
-        /* SIDEBAR */
         .sidebar {
             width: 240px;
             flex-shrink: 0;
@@ -69,7 +68,6 @@
             color: var(--gold);
         }
 
-        /* MAIN CONTENT */
         .main {
             flex: 1;
             padding: 30px;
@@ -94,7 +92,6 @@
             margin-top: 6px;
         }
 
-        /* STATISTICS */
         .stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
@@ -123,7 +120,6 @@
             overflow-wrap: anywhere;
         }
 
-        /* SECTIONS */
         .section {
             background: var(--white);
             padding: 24px;
@@ -137,7 +133,6 @@
             margin-bottom: 18px;
         }
 
-        /* BUTTONS */
         .actions {
             display: flex;
             flex-wrap: wrap;
@@ -180,7 +175,6 @@
             background: #8f2020;
         }
 
-        /* ANALYTICS */
         .analytics {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -216,7 +210,6 @@
             border-radius: 10px;
         }
 
-        /* RESERVATION TABLE */
         .table-wrapper {
             overflow-x: auto;
         }
@@ -243,7 +236,6 @@
             background: #f7f9fc;
         }
 
-        /* BOOKING STATUS */
         .status {
             display: inline-block;
             padding: 5px 9px;
@@ -267,23 +259,6 @@
             color: #a02020;
         }
 
-        /* DEMO AND REAL LABELS */
-        .tag {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 12px;
-            background: #fff0c2;
-            color: #8a6500;
-            font-size: 11px;
-            font-weight: bold;
-        }
-
-        .tag.real {
-            background: #d9f5df;
-            color: #17652b;
-        }
-
-        /* FLASH MESSAGE */
         .flash {
             padding: 12px 15px;
             background: #e1f0ff;
@@ -299,7 +274,6 @@
             color: var(--muted);
         }
 
-        /* MOBILE RESPONSIVE */
         @media (max-width: 768px) {
             .layout {
                 flex-direction: column;
@@ -363,7 +337,6 @@
             {% endif %}
         {% endwith %}
 
-        <!-- DASHBOARD STATISTICS -->
         <div class="stats">
 
             <div class="stat-card">
@@ -388,7 +361,6 @@
 
         </div>
 
-        <!-- MANAGEMENT ACTIONS -->
         <section class="section">
             <h2>Management Actions</h2>
 
@@ -414,7 +386,6 @@
             </div>
         </section>
 
-        <!-- ROOM BOOKING ANALYTICS -->
         <section class="section">
             <h2>Room Booking Analytics</h2>
 
@@ -456,7 +427,6 @@
             </div>
         </section>
 
-        <!-- ALL RESERVATIONS -->
         <section class="section">
             <h2>All Reservations</h2>
 
@@ -474,7 +444,6 @@
                             <th>Guests</th>
                             <th>Amount</th>
                             <th>Status</th>
-                            <th>Type</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -499,14 +468,6 @@
                             </td>
 
                             <td>
-                                {% if booking['is_demo'] %}
-                                    <span class="tag">DEMO</span>
-                                {% else %}
-                                    <span class="tag real">REAL</span>
-                                {% endif %}
-                            </td>
-
-                            <td>
                                 <form method="POST"
                                       action="{{ url_for('delete_booking', booking_id=booking['id']) }}"
                                       onsubmit="return confirm('Are you sure you want to delete this booking?');">
@@ -520,7 +481,7 @@
 
                         {% else %}
                         <tr>
-                            <td colspan="12" class="empty">
+                            <td colspan="11" class="empty">
                                 No bookings found.
                             </td>
                         </tr>
