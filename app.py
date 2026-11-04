@@ -30,7 +30,6 @@ init_db()
 # ---------------- DATABASE CONNECTION ----------------
 
 def get_db_connection():
-
     base_dir = os.path.dirname(os.path.abspath(__file__))
     database_path = os.path.join(base_dir, "hotel.db")
 
@@ -48,19 +47,19 @@ ROOM_CAPACITY = {
     "Luxury Suite": 4
 }
 
+BOOKING_STATUSES = (
+    "Pending",
+    "Confirmed",
+    "Cancelled"
+)
+
 
 # ---------------- DATE VALIDATION ----------------
 
 def validate_dates(check_in, check_out):
-
     try:
-        check_in_date = datetime.strptime(
-            check_in, "%Y-%m-%d"
-        )
-
-        check_out_date = datetime.strptime(
-            check_out, "%Y-%m-%d"
-        )
+        check_in_date = datetime.strptime(check_in, "%Y-%m-%d")
+        check_out_date = datetime.strptime(check_out, "%Y-%m-%d")
 
         nights = (check_out_date - check_in_date).days
 
@@ -81,11 +80,11 @@ def check_room_availability(
     check_in,
     check_out
 ):
-
     return connection.execute("""
         SELECT id
         FROM bookings
         WHERE room_type = ?
+          AND status != 'Cancelled'
           AND check_in < ?
           AND check_out > ?
         LIMIT 1
@@ -100,7 +99,6 @@ def check_room_availability(
 
 @app.route("/")
 def home():
-
     return render_template("index.html")
 
 
@@ -108,7 +106,6 @@ def home():
 
 @app.route("/rooms")
 def rooms():
-
     return render_template("rooms.html")
 
 
@@ -132,30 +129,25 @@ def booking():
         except (ValueError, TypeError):
             return "Please enter a valid number of guests."
 
-        # Required field validation
         if not all([
             name, email, phone,
             room_type, check_in, check_out
         ]):
             return "Please fill in all required fields."
 
-        # Room validation
         if room_type not in ROOM_CAPACITY:
             return "Invalid room type."
 
-        # Guest capacity validation
         if guests <= 0:
             return "Number of guests must be at least 1."
 
         if guests > ROOM_CAPACITY[room_type]:
-
             return render_template(
                 "capacity_error.html",
                 room_type=room_type,
                 capacity=ROOM_CAPACITY[room_type]
             )
 
-        # Date validation
         nights = validate_dates(check_in, check_out)
 
         if nights is None:
@@ -164,8 +156,6 @@ def booking():
         connection = get_db_connection()
 
         try:
-
-            # Check room availability
             existing_booking = check_room_availability(
                 connection,
                 room_type,
@@ -174,7 +164,6 @@ def booking():
             )
 
             if existing_booking:
-
                 return render_template(
                     "not_available.html",
                     room_type=room_type,
@@ -182,7 +171,6 @@ def booking():
                     check_out=check_out
                 )
 
-            # Get room price
             room = connection.execute(
                 "SELECT price FROM rooms WHERE room_type = ?",
                 (room_type,)
@@ -197,7 +185,6 @@ def booking():
         finally:
             connection.close()
 
-        # Proceed to simulated payment
         return render_template(
             "payment.html",
             name=name,
@@ -234,7 +221,6 @@ def confirm_booking():
     except (ValueError, TypeError):
         return "Invalid number of guests."
 
-    # Required field validation
     if not all([
         name, email, phone,
         room_type, check_in, check_out,
@@ -242,23 +228,19 @@ def confirm_booking():
     ]):
         return "Missing booking or payment details."
 
-    # Room validation
     if room_type not in ROOM_CAPACITY:
         return "Invalid room type."
 
-    # Capacity validation
     if guests <= 0:
         return "Number of guests must be at least 1."
 
     if guests > ROOM_CAPACITY[room_type]:
-
         return render_template(
             "capacity_error.html",
             room_type=room_type,
             capacity=ROOM_CAPACITY[room_type]
         )
 
-    # Recalculate nights on the server
     nights = validate_dates(check_in, check_out)
 
     if nights is None:
@@ -267,8 +249,6 @@ def confirm_booking():
     connection = get_db_connection()
 
     try:
-
-        # Check availability again before saving
         existing_booking = check_room_availability(
             connection,
             room_type,
@@ -277,7 +257,6 @@ def confirm_booking():
         )
 
         if existing_booking:
-
             return render_template(
                 "not_available.html",
                 room_type=room_type,
@@ -285,7 +264,6 @@ def confirm_booking():
                 check_out=check_out
             )
 
-        # Get the actual room price from database
         room = connection.execute(
             "SELECT price FROM rooms WHERE room_type = ?",
             (room_type,)
@@ -294,10 +272,8 @@ def confirm_booking():
         if room is None:
             return "Room not found."
 
-        # Calculate amount on the server
         total_amount = room["price"] * nights
 
-        # Save booking
         cursor = connection.execute("""
             INSERT INTO bookings (
                 customer_name,
@@ -307,9 +283,10 @@ def confirm_booking():
                 check_in,
                 check_out,
                 guests,
-                total_amount
+                total_amount,
+                status
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             name,
             email,
@@ -318,7 +295,8 @@ def confirm_booking():
             check_in,
             check_out,
             guests,
-            total_amount
+            total_amount,
+            "Pending"
         ))
 
         booking_id = cursor.lastrowid
@@ -328,7 +306,6 @@ def confirm_booking():
     finally:
         connection.close()
 
-    # Display confirmation
     return render_template(
         "confirmation.html",
         booking_id=booking_id,
@@ -360,14 +337,12 @@ def cancel_booking():
         connection = get_db_connection()
 
         try:
-
             booking_record = connection.execute(
                 "SELECT * FROM bookings WHERE id = ?",
                 (booking_id,)
             ).fetchone()
 
             if booking_record is None:
-
                 return """
                 <h2 style="text-align:center; margin-top:50px;">
                     Booking not found.
@@ -377,10 +352,11 @@ def cancel_booking():
                 </p>
                 """
 
-            connection.execute(
-                "DELETE FROM bookings WHERE id = ?",
-                (booking_id,)
-            )
+            connection.execute("""
+                UPDATE bookings
+                SET status = 'Cancelled'
+                WHERE id = ?
+            """, (booking_id,))
 
             connection.commit()
 
@@ -414,7 +390,6 @@ def admin_login():
             and username == admin_username
             and password == admin_password
         ):
-
             session.clear()
             session["admin_logged_in"] = True
 
@@ -439,21 +414,17 @@ def admin():
     connection = get_db_connection()
 
     try:
-
-        # All bookings
         bookings = connection.execute("""
             SELECT *
             FROM bookings
             ORDER BY id DESC
         """).fetchall()
 
-        # Total bookings
         total_bookings = connection.execute("""
             SELECT COUNT(*) AS count
             FROM bookings
         """).fetchone()["count"]
 
-        # Unique customers
         total_customers = connection.execute("""
             SELECT COUNT(DISTINCT LOWER(TRIM(email))) AS count
             FROM bookings
@@ -461,31 +432,31 @@ def admin():
               AND TRIM(email) != ''
         """).fetchone()["count"]
 
-        # Total booking value (not verified collected revenue)
         total_revenue = connection.execute("""
             SELECT COALESCE(SUM(total_amount), 0) AS revenue
             FROM bookings
+            WHERE status != 'Cancelled'
         """).fetchone()["revenue"]
 
-        # Standard Room bookings
         standard_bookings = connection.execute("""
             SELECT COUNT(*) AS count
             FROM bookings
             WHERE room_type = 'Standard Room'
+              AND status != 'Cancelled'
         """).fetchone()["count"]
 
-        # Deluxe Room bookings
         deluxe_bookings = connection.execute("""
             SELECT COUNT(*) AS count
             FROM bookings
             WHERE room_type = 'Deluxe Room'
+              AND status != 'Cancelled'
         """).fetchone()["count"]
 
-        # Luxury Suite bookings
         luxury_bookings = connection.execute("""
             SELECT COUNT(*) AS count
             FROM bookings
             WHERE room_type = 'Luxury Suite'
+              AND status != 'Cancelled'
         """).fetchone()["count"]
 
     finally:
@@ -503,6 +474,47 @@ def admin():
     )
 
 
+# ---------------- UPDATE BOOKING STATUS (ADMIN) ----------------
+
+@app.route(
+    "/admin/update_booking_status/<int:booking_id>",
+    methods=["POST"]
+)
+def update_booking_status(booking_id):
+
+    if not session.get("admin_logged_in"):
+        return redirect(url_for("admin_login"))
+
+    new_status = request.form.get("status", "").strip()
+
+    if new_status not in BOOKING_STATUSES:
+        return "Invalid booking status.", 400
+
+    connection = get_db_connection()
+
+    try:
+        booking_record = connection.execute(
+            "SELECT id FROM bookings WHERE id = ?",
+            (booking_id,)
+        ).fetchone()
+
+        if booking_record is None:
+            return "Booking not found.", 404
+
+        connection.execute("""
+            UPDATE bookings
+            SET status = ?
+            WHERE id = ?
+        """, (new_status, booking_id))
+
+        connection.commit()
+
+    finally:
+        connection.close()
+
+    return redirect(url_for("admin"))
+
+
 # ---------------- ADMIN CUSTOMER MANAGEMENT ----------------
 
 @app.route("/admin/customers")
@@ -517,11 +529,9 @@ def admin_customers():
     connection = get_db_connection()
 
     try:
-
         customer_bookings = []
         selected_customer = None
 
-        # Selected customer details
         if selected_email:
 
             selected_customer = connection.execute("""
@@ -536,7 +546,6 @@ def admin_customers():
                 GROUP BY LOWER(TRIM(email))
             """, (selected_email,)).fetchone()
 
-            # Selected customer booking history
             if selected_customer:
 
                 customer_bookings = connection.execute("""
@@ -546,7 +555,6 @@ def admin_customers():
                     ORDER BY id DESC
                 """, (selected_email,)).fetchall()
 
-        # Search customers
         customers = connection.execute("""
             SELECT
                 MAX(customer_name) AS customer_name,
@@ -593,7 +601,6 @@ def delete_booking(booking_id):
     connection = get_db_connection()
 
     try:
-
         connection.execute(
             "DELETE FROM bookings WHERE id = ?",
             (booking_id,)
@@ -620,5 +627,4 @@ def admin_logout():
 # ---------------- RUN FLASK ----------------
 
 if __name__ == "__main__":
-
     app.run(debug=True)
