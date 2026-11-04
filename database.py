@@ -31,9 +31,20 @@ def init_db():
         check_in TEXT NOT NULL,
         check_out TEXT NOT NULL,
         guests INTEGER NOT NULL,
-        total_amount REAL NOT NULL
+        total_amount REAL NOT NULL,
+        status TEXT NOT NULL DEFAULT 'Pending'
     )
     """)
+
+    # Safely add status column to an existing bookings table
+    cursor.execute("PRAGMA table_info(bookings)")
+    columns = [column[1] for column in cursor.fetchall()]
+
+    if "status" not in columns:
+        cursor.execute("""
+        ALTER TABLE bookings
+        ADD COLUMN status TEXT NOT NULL DEFAULT 'Confirmed'
+        """)
 
     cursor.execute("SELECT COUNT(*) FROM rooms")
     room_count = cursor.fetchone()[0]
