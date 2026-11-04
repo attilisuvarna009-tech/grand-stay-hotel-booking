@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,269 +6,759 @@
 <title>Grand Stay | Admin Dashboard</title>
 
 <style>
-* { box-sizing: border-box; }
-body {
+:root {
+    --navy: #101b30;
+    --navy2: #1b2b46;
+    --gold: #c69a45;
+    --bg: #f4f6fa;
+    --text: #243047;
+    --muted: #748096;
+    --line: #e6eaf0;
+    --red: #b83b35;
+}
+
+* {
+    box-sizing: border-box;
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f3f6fb;
-    color: #243247;
+    padding: 0;
 }
-.layout { display: flex; min-height: 100vh; }
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+.layout {
+    min-height: 100vh;
+    display: flex;
+}
+
 .sidebar {
-    width: 235px;
-    background: #142b4a;
+    width: 245px;
+    flex: 0 0 245px;
+    background: var(--navy);
     color: white;
-    padding: 25px 18px;
+    padding: 27px 16px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
-.brand { font-size: 23px; font-weight: bold; margin-bottom: 35px; }
-.brand span { color: #d5a64b; }
-.sidebar a {
-    display: block;
-    padding: 13px;
-    margin: 7px 0;
-    border-radius: 8px;
+
+.brand {
+    padding: 0 13px 27px;
+    border-bottom: 1px solid #ffffff25;
+}
+
+.brand h2 {
+    font-size: 23px;
+    color: #fff;
+}
+
+.brand h2 span {
+    color: var(--gold);
+}
+
+.brand p {
+    font-size: 10px;
+    color: #aebbd0;
+    margin-top: 7px;
+    letter-spacing: 1.5px;
+}
+
+.nav-label {
+    font-size: 10px;
+    color: #8291aa;
+    letter-spacing: 1.5px;
+    font-weight: bold;
+    padding: 27px 13px 10px;
+}
+
+.nav a, .bottom a {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    color: #dce4f0;
     text-decoration: none;
-    color: #e5edf7;
+    padding: 12px 13px;
+    border-radius: 8px;
+    margin: 3px 0;
+    font-size: 14px;
 }
-.sidebar a:hover, .sidebar a.active {
-    background: #294d73;
+
+.nav a:hover, .nav a.active {
+    background: #ffffff18;
+    color: #fff;
 }
-.main { flex: 1; padding: 30px; min-width: 0; }
-.header {
+
+.nav a.active {
+    border-left: 3px solid var(--gold);
+    padding-left: 10px;
+}
+
+.ico {
+    width: 20px;
+    text-align: center;
+    color: var(--gold);
+    font-size: 17px;
+}
+
+.bottom {
+    margin-top: auto;
+    padding: 17px 0 0;
+    border-top: 1px solid #ffffff25;
+}
+
+.main {
+    min-width: 0;
+    flex: 1;
+}
+
+.topbar {
+    height: 74px;
+    background: white;
+    border-bottom: 1px solid var(--line);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 0 34px;
+}
+
+.crumb {
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.admin {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: #f5ead5;
+    color: #8a6427;
+}
+
+.content {
+    max-width: 1450px;
+    margin: auto;
+    padding: 32px 34px 45px;
+}
+
+.heading {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
     margin-bottom: 25px;
 }
-h1 { color: #142b4a; margin-bottom: 6px; }
-.muted { color: #718096; font-size: 13px; }
-.cards {
-    display: grid;
-    grid-template-columns: repeat(5, minmax(130px, 1fr));
-    gap: 15px;
-    margin-bottom: 22px;
+
+h1 {
+    font-size: 27px;
+    color: var(--navy);
+    margin-bottom: 7px;
 }
-.card, .panel {
+
+.subtitle, .hint {
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.date {
+    font-size: 12px;
+    color: var(--muted);
     background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 3px 12px #00000008;
+    border: 1px solid var(--line);
+    padding: 10px 13px;
+    border-radius: 8px;
+    height: max-content;
 }
-.card p { color: #718096; font-size: 13px; }
-.card h2 { color: #245b91; font-size: 25px; }
-.panels {
+
+.stats {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 18px;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 14px;
     margin-bottom: 22px;
 }
-.bar {
-    background: #e8edf4;
-    height: 10px;
-    border-radius: 10px;
-    margin: 8px 0 17px;
+
+.stat, .panel {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    box-shadow: 0 8px 26px #14213a0a;
+}
+
+.stat {
+    padding: 17px;
+    min-height: 120px;
+}
+
+.stat-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 17px;
+}
+
+.label {
+    font-size: 10px;
+    color: var(--muted);
+    font-weight: bold;
+    letter-spacing: .3px;
+}
+
+.stat-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    background: #f7f0e3;
+    color: #98702f;
+    display: grid;
+    place-items: center;
+}
+
+.value {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--navy);
+    overflow-wrap: anywhere;
+}
+
+.panel {
+    padding: 22px;
+    margin-bottom: 22px;
+}
+
+.panel-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.panel h2 {
+    font-size: 17px;
+    color: var(--navy);
+}
+
+.chart-row {
+    margin: 18px 0;
+}
+
+.chart-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.chart-label strong {
+    color: var(--navy);
+}
+
+.bar-bg {
+    height: 12px;
+    background: #edf0f5;
+    border-radius: 20px;
     overflow: hidden;
 }
-.fill {
-    background: #3479ad;
+
+.bar {
     height: 100%;
-    border-radius: 10px;
+    width: 0;
+    background: linear-gradient(90deg, #b58a3c, #e0bd78);
+    border-radius: 20px;
+    transition: width .7s;
 }
-.quick a {
-    display: inline-block;
-    background: #edf4fb;
-    color: #245b91;
-    padding: 12px;
-    border-radius: 8px;
-    text-decoration: none;
-    margin: 5px;
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    min-width: 950px;
+    border-collapse: collapse;
     font-size: 13px;
 }
-.table-panel { padding: 20px; overflow: hidden; }
-.table-wrap { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; min-width: 850px; }
-th, td {
-    padding: 13px;
-    border-bottom: 1px solid #e8edf4;
+
+th {
+    background: #f5f6f9;
+    color: #59677d;
     text-align: left;
-    font-size: 12px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    padding: 13px 12px;
 }
-th { background: #f3f6fb; color: #52647a; }
+
+td {
+    padding: 14px 12px;
+    border-bottom: 1px solid var(--line);
+}
+
+tbody tr:hover {
+    background: #fbfcfe;
+}
+
+.guest, .amount {
+    font-weight: bold;
+    color: var(--navy);
+}
+
+.room-tag {
+    display: inline-block;
+    background: #f7f0e3;
+    color: #856126;
+    padding: 5px 8px;
+    border-radius: 20px;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
 .delete-btn {
-    background: #ffe9e7;
-    color: #c0392b;
-    border: none;
-    padding: 8px 12px;
+    background: #fff1ef;
+    color: var(--red);
+    border: 1px solid #f2d2ce;
+    padding: 7px 10px;
     border-radius: 6px;
     cursor: pointer;
 }
-.room {
-    background: #edf4fb;
-    color: #245b91;
-    padding: 5px 8px;
-    border-radius: 12px;
-}
-.empty { text-align: center; padding: 25px; color: #718096; }
-.footer { margin-top: 18px; color: #8794a5; font-size: 11px; }
 
-@media(max-width: 1100px) {
-    .cards { grid-template-columns: repeat(3, 1fr); }
+.delete-btn:hover {
+    background: #ffe4e0;
 }
-@media(max-width: 750px) {
-    .layout { display: block; }
-    .sidebar { width: 100%; }
-    .sidebar a { display: inline-block; }
-    .main { padding: 18px; }
-    .cards { grid-template-columns: repeat(2, 1fr); }
-    .panels { grid-template-columns: 1fr; }
+
+.empty {
+    text-align: center;
+    color: var(--muted);
+    padding: 42px 15px;
+}
+
+.empty strong {
+    display: block;
+    color: var(--navy);
+    margin-bottom: 7px;
+}
+
+footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+    padding: 10px 20px 25px;
+}
+
+@media(max-width:1250px) {
+    .stats {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media(max-width:800px) {
+    .sidebar {
+        width: 70px;
+        flex-basis: 70px;
+        padding: 20px 9px;
+    }
+
+    .brand {
+        padding: 0 0 20px;
+        text-align: center;
+    }
+
+    .brand h2 {
+        font-size: 0;
+    }
+
+    .brand h2:before {
+        content: "G";
+        font-size: 22px;
+        color: var(--gold);
+    }
+
+    .brand p, .nav-label, .nav a .nav-text,
+    .bottom .nav-text {
+        display: none;
+    }
+
+    .nav a, .bottom a {
+        justify-content: center;
+        padding: 13px 5px;
+    }
+
+    .topbar {
+        padding: 0 18px;
+    }
+
+    .content {
+        padding: 25px 18px 35px;
+    }
+}
+
+@media(max-width:560px) {
+    .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .stat {
+        padding: 15px;
+        min-height: 108px;
+    }
+
+    .value {
+        font-size: 21px;
+    }
+
+    .heading {
+        display: block;
+    }
+
+    h1 {
+        font-size: 23px;
+    }
+
+    .date {
+        display: inline-block;
+        margin-top: 14px;
+    }
+
+    .panel {
+        padding: 16px;
+    }
+
+    .crumb {
+        display: none;
+    }
 }
 </style>
 </head>
 
 <body>
+
 <div class="layout">
 
 <aside class="sidebar">
-    <div class="brand">GRAND <span>STAY</span></div>
-    <p class="muted">HOTEL MANAGEMENT</p>
 
-    <a class="active" href="{{ url_for('admin') }}">▦ Dashboard</a>
-    <a href="#reservations">▤ Reservations</a>
-    <a href="{{ url_for('rooms') }}">▣ View Rooms</a>
-    <a href="{{ url_for('home') }}">⌂ Customer Website</a>
-    <a href="{{ url_for('admin_logout') }}">↪ Logout</a>
+    <div class="brand">
+        <h2>Grand <span>Stay</span></h2>
+        <p>HOTEL MANAGEMENT</p>
+    </div>
+
+    <div class="nav-label">MAIN MENU</div>
+
+    <nav class="nav">
+        <a class="active" href="#overview">
+            <span class="ico">▦</span>
+            <span class="nav-text">Dashboard</span>
+        </a>
+
+        <a href="#reservations">
+            <span class="ico">▤</span>
+            <span class="nav-text">Reservations</span>
+        </a>
+
+        <a href="{{ url_for('admin_customers') }}">
+            <span class="ico">♙</span>
+            <span class="nav-text">Customers</span>
+        </a>
+
+        <a href="{{ url_for('rooms') }}">
+            <span class="ico">▣</span>
+            <span class="nav-text">View Rooms</span>
+        </a>
+
+        <a href="{{ url_for('booking') }}">
+            <span class="ico">＋</span>
+            <span class="nav-text">New Booking</span>
+        </a>
+
+        <a href="#analytics">
+            <span class="ico">▥</span>
+            <span class="nav-text">Analytics</span>
+        </a>
+    </nav>
+
+    <div class="bottom">
+        <a href="{{ url_for('home') }}">
+            <span class="ico">⌂</span>
+            <span class="nav-text">Visit Website</span>
+        </a>
+
+        <a href="{{ url_for('admin_logout') }}">
+            <span class="ico">↪</span>
+            <span class="nav-text">Logout</span>
+        </a>
+    </div>
+
 </aside>
 
 <main class="main">
 
-<div class="header">
-    <div>
-        <h1>Dashboard Overview</h1>
-        <p class="muted">Welcome to Grand Stay Admin Panel</p>
+<header class="topbar">
+    <div class="crumb">Grand Stay / Admin / Dashboard</div>
+
+    <div class="admin">
+        <span class="avatar">A</span>
+        Administrator
     </div>
-    <strong>Administrator</strong>
-</div>
+</header>
 
-<div class="cards">
-    <div class="card">
-        <p>Total Bookings</p>
-        <h2>{{ total_bookings }}</h2>
-    </div>
+<div class="content" id="overview">
 
-    <div class="card">
-        <p>Booking Value</p>
-        <h2>₹{{ "%.2f"|format(total_revenue or 0) }}</h2>
-    </div>
-
-    <div class="card">
-        <p>Standard Bookings</p>
-        <h2>{{ standard_bookings }}</h2>
-    </div>
-
-    <div class="card">
-        <p>Deluxe Bookings</p>
-        <h2>{{ deluxe_bookings }}</h2>
-    </div>
-
-    <div class="card">
-        <p>Luxury Bookings</p>
-        <h2>{{ luxury_bookings }}</h2>
-    </div>
-</div>
-
-<div class="panels">
-
-    <div class="panel">
-        <h3>Bookings by Room Type</h3>
-
-        {% set max_count = [standard_bookings or 0, deluxe_bookings or 0, luxury_bookings or 0, 1]|max %}
-
-        <p>Standard Room</p>
-        <div class="bar">
-            <div class="fill" style="width: {{ (standard_bookings / max_count * 100)|round }}%"></div>
+    <div class="heading">
+        <div>
+            <h1>Dashboard Overview</h1>
+            <p class="subtitle">
+                Welcome back. Here's what's happening at your property.
+            </p>
         </div>
 
-        <p>Deluxe Room</p>
-        <div class="bar">
-            <div class="fill" style="width: {{ (deluxe_bookings / max_count * 100)|round }}%"></div>
-        </div>
-
-        <p>Luxury Suite</p>
-        <div class="bar">
-            <div class="fill" style="width: {{ (luxury_bookings / max_count * 100)|round }}%"></div>
+        <div class="date">
+            Management overview · Live database figures
         </div>
     </div>
 
-    <div class="panel quick">
-        <h3>Quick Navigation</h3>
-        <a href="#reservations">View Reservations</a>
-        <a href="{{ url_for('rooms') }}">View Rooms</a>
-        <a href="{{ url_for('home') }}">Open Website</a>
-        <a href="{{ url_for('admin_logout') }}">Logout</a>
-    </div>
+    <section class="stats">
 
-</div>
+        <div class="stat">
+            <div class="stat-top">
+                <span class="label">TOTAL BOOKINGS</span>
+                <span class="stat-icon">▤</span>
+            </div>
+            <div class="value">{{ total_bookings | default(0) }}</div>
+        </div>
 
-<div class="panel table-panel" id="reservations">
-    <h3>Reservation Management</h3>
-    <p class="muted">Manage customer booking details</p>
+        <div class="stat">
+            <div class="stat-top">
+                <span class="label">TOTAL CUSTOMERS</span>
+                <span class="stat-icon">♙</span>
+            </div>
+            <div class="value">{{ total_customers | default(0) }}</div>
+        </div>
 
-    <div class="table-wrap">
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Customer</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Room</th>
-                <th>Check-in</th>
-                <th>Check-out</th>
-                <th>Guests</th>
-                <th>Amount</th>
-                <th>Action</th>
-            </tr>
-        </thead>
+        <div class="stat">
+            <div class="stat-top">
+                <span class="label">BOOKING VALUE*</span>
+                <span class="stat-icon">₹</span>
+            </div>
+            <div class="value">
+                ₹{{ "%.0f"|format(total_revenue | default(0)) }}
+            </div>
+        </div>
 
-        <tbody>
+        <div class="stat">
+            <div class="stat-top">
+                <span class="label">STANDARD ROOM</span>
+                <span class="stat-icon">▣</span>
+            </div>
+            <div class="value">{{ standard_bookings | default(0) }}</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-top">
+                <span class="label">DELUXE ROOM</span>
+                <span class="stat-icon">◇</span>
+            </div>
+            <div class="value">{{ deluxe_bookings | default(0) }}</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-top">
+                <span class="label">LUXURY SUITE</span>
+                <span class="stat-icon">✧</span>
+            </div>
+            <div class="value">{{ luxury_bookings | default(0) }}</div>
+        </div>
+
+    </section>
+
+    <section class="panel" id="analytics">
+
+        <div class="panel-head">
+            <div>
+                <h2>Room Booking Analytics</h2>
+                <p class="hint">Booking count by room category</p>
+            </div>
+        </div>
+
+        <div id="analyticsData"
+             data-standard="{{ standard_bookings | default(0) }}"
+             data-deluxe="{{ deluxe_bookings | default(0) }}"
+             data-luxury="{{ luxury_bookings | default(0) }}">
+        </div>
+
+        <div class="chart-row">
+            <div class="chart-label">
+                <span>Standard Room</span>
+                <strong>{{ standard_bookings | default(0) }}</strong>
+            </div>
+            <div class="bar-bg">
+                <div class="bar" id="standardBar"></div>
+            </div>
+        </div>
+
+        <div class="chart-row">
+            <div class="chart-label">
+                <span>Deluxe Room</span>
+                <strong>{{ deluxe_bookings | default(0) }}</strong>
+            </div>
+            <div class="bar-bg">
+                <div class="bar" id="deluxeBar"></div>
+            </div>
+        </div>
+
+        <div class="chart-row">
+            <div class="chart-label">
+                <span>Luxury Suite</span>
+                <strong>{{ luxury_bookings | default(0) }}</strong>
+            </div>
+            <div class="bar-bg">
+                <div class="bar" id="luxuryBar"></div>
+            </div>
+        </div>
+
+        <p class="hint">
+            *Booking value is calculated from booking records.
+            It does not confirm that payment was successfully collected.
+        </p>
+
+    </section>
+
+    <section class="panel" id="reservations">
+
+        <div class="panel-head">
+            <div>
+                <h2>Recent Reservations</h2>
+                <p class="hint">
+                    Customer bookings stored in the hotel database
+                </p>
+            </div>
+
+            <span class="hint">
+                {{ total_bookings | default(0) }} total records
+            </span>
+        </div>
+
         {% if bookings %}
-            {% for booking in bookings %}
-            <tr>
-                <td>{{ booking.id }}</td>
-                <td>{{ booking.customer_name }}</td>
-                <td>{{ booking.email }}</td>
-                <td>{{ booking.phone }}</td>
-                <td><span class="room">{{ booking.room_type }}</span></td>
-                <td>{{ booking.check_in }}</td>
-                <td>{{ booking.check_out }}</td>
-                <td>{{ booking.guests }}</td>
-                <td>₹{{ "%.2f"|format(booking.total_amount or 0) }}</td>
-                <td>
-                    <form method="POST"
-                    action="{{ url_for('delete_booking', booking_id=booking.id) }}"
-                    onsubmit="return confirm('Delete this booking?');">
-                        <button class="delete-btn" type="submit">Delete</button>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>Guest</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Room Type</th>
+                        <th>Check-in</th>
+                        <th>Check-out</th>
+                        <th>Guests</th>
+                        <th>Amount</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for booking in bookings %}
+
+                    <tr>
+                        <td>#{{ booking["id"] }}</td>
+
+                        <td class="guest">
+                            {{ booking["customer_name"] }}
+                        </td>
+
+                        <td>{{ booking["email"] }}</td>
+
+                        <td>{{ booking["phone"] }}</td>
+
+                        <td>
+                            <span class="room-tag">
+                                {{ booking["room_type"] }}
+                            </span>
+                        </td>
+
+                        <td>{{ booking["check_in"] }}</td>
+
+                        <td>{{ booking["check_out"] }}</td>
+
+                        <td>{{ booking["guests"] }}</td>
+
+                        <td class="amount">
+                            ₹{{ "%.0f"|format(booking["total_amount"]) }}
+                        </td>
+
+                        <td>
+                            <form method="POST"
+                                  action="{{ url_for('delete_booking', booking_id=booking['id']) }}"
+                                  onsubmit="return confirm('Are you sure you want to delete this booking?');">
+
+                                <button type="submit" class="delete-btn">
+                                    Delete
+                                </button>
+
+                            </form>
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
         {% else %}
-            <tr>
-                <td colspan="10" class="empty">
-                    No bookings available yet.
-                </td>
-            </tr>
+
+        <div class="empty">
+            <strong>No reservations yet</strong>
+            New customer bookings will appear here.
+        </div>
+
         {% endif %}
-        </tbody>
-    </table>
-    </div>
+
+    </section>
+
 </div>
 
-<p class="footer">
-    Grand Stay Hotel Booking System | Admin Dashboard Prototype
-</p>
+<footer>
+    © 2026 Grand Stay Hotel · Admin Management Portal
+</footer>
 
 </main>
 </div>
+
+<script>
+const data = document.getElementById('analyticsData');
+
+const standard = Number(data.dataset.standard) || 0;
+const deluxe = Number(data.dataset.deluxe) || 0;
+const luxury = Number(data.dataset.luxury) || 0;
+
+const maximum = Math.max(standard, deluxe, luxury, 1);
+
+document.getElementById('standardBar').style.width =
+    (standard / maximum * 100) + '%';
+
+document.getElementById('deluxeBar').style.width =
+    (deluxe / maximum * 100) + '%';
+
+document.getElementById('luxuryBar').style.width =
+    (luxury / maximum * 100) + '%';
+</script>
+
 </body>
 </html>
