@@ -1,9 +1,9 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Book Your Room - Grand Stay</title>
 
     <style>
@@ -13,14 +13,30 @@
             box-sizing: border-box;
         }
 
+        html {
+            min-height: 100%;
+            background-color: #101b2b;
+        }
+
         body {
             font-family: Arial, sans-serif;
-            background: #f5f7f6;
+            min-height: 100vh;
             color: #222;
+            background-color: #101b2b;
+            background-image:
+                linear-gradient(
+                    rgba(5, 15, 30, 0.65),
+                    rgba(5, 15, 30, 0.72)
+                ),
+                url("https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=2000&q=85");
+            background-position: center center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
         }
 
         nav {
-            background: #1f3d35;
+            background: rgba(12, 25, 43, 0.95);
             padding: 18px 50px;
             display: flex;
             justify-content: space-between;
@@ -28,7 +44,7 @@
         }
 
         nav h2 {
-            color: white;
+            color: #f0c75e;
         }
 
         nav a {
@@ -39,26 +55,24 @@
         }
 
         nav a:hover {
-            text-decoration: underline;
+            color: #f0c75e;
         }
 
         .container {
             width: 90%;
             max-width: 700px;
             margin: 50px auto;
-            background: white;
+            background: rgba(255, 255, 255, 0.97);
             padding: 35px;
             border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
         }
 
         h1 {
             text-align: center;
-            color: #1f3d35;
+            color: #142b45;
             margin-bottom: 30px;
         }
-
-        /* Smart Recommendation Box */
 
         .smart-box {
             background: linear-gradient(135deg, #eef7f3, #ffffff);
@@ -126,8 +140,6 @@
             color: #f0c75e;
         }
 
-        /* Form */
-
         label {
             display: block;
             margin-top: 15px;
@@ -148,7 +160,7 @@
             width: 100%;
             margin-top: 25px;
             padding: 14px;
-            background: #1f3d35;
+            background: #142b45;
             color: white;
             border: none;
             border-radius: 8px;
@@ -157,18 +169,18 @@
         }
 
         .btn:hover {
-            background: #2d594c;
+            background: #c59b3a;
         }
 
         footer {
             text-align: center;
             padding: 20px;
             margin-top: 30px;
-            color: #666;
+            color: #ffffff;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
         }
 
         @media (max-width: 600px) {
-
             nav {
                 padding: 18px 20px;
             }
@@ -186,6 +198,10 @@
             .smart-row {
                 grid-template-columns: 1fr;
             }
+
+            body {
+                background-attachment: scroll;
+            }
         }
     </style>
 </head>
@@ -202,11 +218,9 @@
         </div>
     </nav>
 
-
     <div class="container">
 
         <h1>Book Your Room</h1>
-
 
         <!-- SMART ROOM RECOMMENDATION -->
 
@@ -222,9 +236,7 @@
             <div class="smart-row">
 
                 <div>
-                    <label for="smart_guests">
-                        Number of Guests
-                    </label>
+                    <label for="smart_guests">Number of Guests</label>
 
                     <input
                         type="number"
@@ -236,9 +248,7 @@
                 </div>
 
                 <div>
-                    <label for="smart_budget">
-                        Maximum Budget / Night
-                    </label>
+                    <label for="smart_budget">Maximum Budget / Night</label>
 
                     <input
                         type="number"
@@ -259,14 +269,12 @@
                 🔍 Recommend a Room
             </button>
 
-
             <div
                 class="recommend-result"
                 id="recommendResult"
             ></div>
 
         </div>
-
 
         <!-- BOOKING FORM -->
 
@@ -281,7 +289,6 @@
                 required
             >
 
-
             <label>Email</label>
 
             <input
@@ -290,7 +297,6 @@
                 placeholder="Enter your email"
                 required
             >
-
 
             <label>Phone Number</label>
 
@@ -301,14 +307,11 @@
                 required
             >
 
-
             <label>Select Room</label>
 
             <select name="room_type" id="room_type" required>
 
-                <option value="">
-                    -- Select Room --
-                </option>
+                <option value="">-- Select Room --</option>
 
                 <option value="Standard Room">
                     Standard Room - ₹2,000/night
@@ -324,7 +327,6 @@
 
             </select>
 
-
             <label>Check-in Date</label>
 
             <input
@@ -333,7 +335,6 @@
                 required
             >
 
-
             <label>Check-out Date</label>
 
             <input
@@ -341,7 +342,6 @@
                 name="check_out"
                 required
             >
-
 
             <label>Number of Guests</label>
 
@@ -355,11 +355,7 @@
                 required
             >
 
-
-            <button
-                type="submit"
-                class="btn"
-            >
+            <button type="submit" class="btn">
                 Confirm Booking
             </button>
 
@@ -367,25 +363,21 @@
 
     </div>
 
-
     <footer>
         © 2026 Grand Stay. All Rights Reserved.
     </footer>
-
 
     <script>
 
         function recommendRoom() {
 
-            const guests =
-                parseInt(
-                    document.getElementById("smart_guests").value
-                );
+            const guests = parseInt(
+                document.getElementById("smart_guests").value
+            );
 
-            const budget =
-                parseInt(
-                    document.getElementById("smart_budget").value
-                );
+            const budget = parseInt(
+                document.getElementById("smart_budget").value
+            );
 
             const result =
                 document.getElementById("recommendResult");
@@ -396,65 +388,46 @@
             const bookingGuests =
                 document.getElementById("booking_guests");
 
-
-            // Room data
-
             const rooms = [
-
                 {
                     name: "Standard Room",
                     price: 2000,
                     capacity: 2
                 },
-
                 {
                     name: "Deluxe Room",
                     price: 3000,
                     capacity: 3
                 },
-
                 {
                     name: "Luxury Suite",
                     price: 5000,
                     capacity: 4
                 }
-
             ];
 
-
-            // Input validation
-
-            if (!guests || guests < 1) {
+            if (!guests || guests < 1 || guests > 10) {
 
                 result.style.display = "block";
-
                 result.innerHTML =
                     "⚠️ Please enter a valid number of guests.";
 
                 return;
             }
 
-
             if (!budget || budget < 2000) {
 
                 result.style.display = "block";
-
                 result.innerHTML =
                     "⚠️ Please enter a budget of at least ₹2,000.";
 
                 return;
             }
 
-
-            // Find rooms that satisfy
-            // both guest capacity and budget
-
-            const suitableRooms =
-                rooms.filter(room =>
-                    guests <= room.capacity &&
-                    room.price <= budget
-                );
-
+            const suitableRooms = rooms.filter(room =>
+                guests <= room.capacity &&
+                room.price <= budget
+            );
 
             if (suitableRooms.length === 0) {
 
@@ -467,31 +440,14 @@
                 return;
             }
 
-
-            // Select the highest-priced
-            // suitable room within budget
-
             suitableRooms.sort(
                 (a, b) => b.price - a.price
             );
 
-            const recommended =
-                suitableRooms[0];
+            const recommended = suitableRooms[0];
 
-
-            // Automatically select room
-
-            roomSelect.value =
-                recommended.name;
-
-
-            // Automatically copy guests
-
-            bookingGuests.value =
-                guests;
-
-
-            // Show recommendation
+            roomSelect.value = recommended.name;
+            bookingGuests.value = guests;
 
             result.style.display = "block";
 
