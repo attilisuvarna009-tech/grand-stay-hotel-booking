@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,14 +14,27 @@
             box-sizing: border-box;
         }
 
+        html {
+            min-height: 100%;
+            background-color: #101b2b;
+        }
+
         body {
             font-family: Arial, sans-serif;
-            background: #f5f7f6;
+            min-height: 100vh;
             color: #222;
+            background-color: #101b2b;
+            background-image:
+                linear-gradient(rgba(5, 15, 30, 0.72), rgba(5, 15, 30, 0.78)),
+                url("https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=2000&q=85");
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
         }
 
         nav {
-            background: #1f3d35;
+            background: rgba(10, 25, 45, 0.95);
             padding: 18px 50px;
             display: flex;
             justify-content: space-between;
@@ -29,23 +42,28 @@
         }
 
         nav h2 {
-            color: white;
+            color: #d4af69;
         }
 
         nav a {
             color: white;
             text-decoration: none;
             margin-left: 25px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #d4af69;
         }
 
         .container {
             width: 90%;
             max-width: 650px;
             margin: 50px auto;
-            background: white;
+            background: rgba(255, 255, 255, 0.97);
             padding: 40px;
             border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
         }
 
         .success {
@@ -54,7 +72,7 @@
         }
 
         .success h1 {
-            color: #1f3d35;
+            color: #1f6b45;
             margin-bottom: 10px;
         }
 
@@ -70,8 +88,14 @@
         .row {
             display: flex;
             justify-content: space-between;
+            gap: 15px;
             padding: 12px 0;
             border-bottom: 1px solid #eee;
+        }
+
+        .row span:last-child {
+            text-align: right;
+            overflow-wrap: anywhere;
         }
 
         .label {
@@ -94,12 +118,43 @@
             color: white;
             text-decoration: none;
             border-radius: 8px;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #d4af69;
+            color: #101b2b;
         }
 
         footer {
             text-align: center;
             padding: 20px;
-            color: #666;
+            color: white;
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                padding: 18px 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav a {
+                margin: 0 8px;
+            }
+
+            .container {
+                margin: 30px auto;
+                padding: 25px 20px;
+            }
+
+            .row {
+                font-size: 14px;
+            }
+
+            .total {
+                font-size: 19px;
+            }
         }
     </style>
 </head>
@@ -182,4 +237,3 @@
 
 </body>
 </html>
-```
