@@ -1,9 +1,9 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Book Your Room - Grand Stay</title>
 
     <style>
@@ -15,12 +15,16 @@
 
         body {
             font-family: Arial, sans-serif;
-            background: #f5f7f6;
+            min-height: 100vh;
             color: #222;
+            background:
+                linear-gradient(rgba(8, 20, 34, 0.72), rgba(8, 20, 34, 0.78)),
+                url("https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=1920&q=85")
+                center / cover fixed no-repeat;
         }
 
         nav {
-            background: #1f3d35;
+            background: rgba(8, 20, 34, 0.94);
             padding: 18px 50px;
             display: flex;
             justify-content: space-between;
@@ -28,7 +32,8 @@
         }
 
         nav h2 {
-            color: white;
+            color: #f0c75e;
+            letter-spacing: 1px;
         }
 
         nav a {
@@ -39,37 +44,39 @@
         }
 
         nav a:hover {
-            text-decoration: underline;
+            color: #f0c75e;
+            text-decoration: none;
         }
 
         .container {
             width: 90%;
             max-width: 700px;
             margin: 50px auto;
-            background: white;
+            background: rgba(255, 255, 255, 0.96);
             padding: 35px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border: 1px solid rgba(212, 175, 55, 0.55);
+            border-radius: 16px;
+            box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
         }
 
         h1 {
             text-align: center;
-            color: #1f3d35;
+            color: #10243a;
             margin-bottom: 30px;
         }
 
         /* Smart Recommendation Box */
 
         .smart-box {
-            background: linear-gradient(135deg, #eef7f3, #ffffff);
-            border: 1px solid #c8ddd6;
+            background: linear-gradient(135deg, #f7f1e2, #ffffff);
+            border: 1px solid #d7bd75;
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 28px;
         }
 
         .smart-box h2 {
-            color: #1f3d35;
+            color: #10243a;
             font-size: 21px;
             margin-bottom: 8px;
         }
@@ -116,7 +123,7 @@
             display: none;
             margin-top: 15px;
             padding: 15px;
-            background: #1f3d35;
+            background: #10243a;
             color: white;
             border-radius: 8px;
             line-height: 1.6;
@@ -126,13 +133,14 @@
             color: #f0c75e;
         }
 
-        /* Form */
+        /* Booking Form */
 
         label {
             display: block;
             margin-top: 15px;
             margin-bottom: 7px;
             font-weight: bold;
+            color: #26384a;
         }
 
         input,
@@ -144,33 +152,44 @@
             font-size: 15px;
         }
 
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #c59b3a;
+            box-shadow: 0 0 0 3px rgba(197, 155, 58, 0.16);
+        }
+
         .btn {
             width: 100%;
             margin-top: 25px;
             padding: 14px;
-            background: #1f3d35;
+            background: #10243a;
             color: white;
-            border: none;
+            border: 1px solid #c59b3a;
             border-radius: 8px;
             font-size: 16px;
             cursor: pointer;
         }
 
         .btn:hover {
-            background: #2d594c;
+            background: #1c3b5b;
         }
 
         footer {
             text-align: center;
             padding: 20px;
             margin-top: 30px;
-            color: #666;
+            color: #fff;
+            background: rgba(8, 20, 34, 0.82);
         }
 
-        @media (max-width: 600px) {
+        /* Mobile Responsive Design */
 
+        @media (max-width: 600px) {
             nav {
                 padding: 18px 20px;
+                flex-wrap: wrap;
+                gap: 12px;
             }
 
             nav a {
@@ -185,6 +204,10 @@
 
             .smart-row {
                 grid-template-columns: 1fr;
+            }
+
+            body {
+                background-attachment: scroll;
             }
         }
     </style>
@@ -202,11 +225,9 @@
         </div>
     </nav>
 
-
     <div class="container">
 
         <h1>Book Your Room</h1>
-
 
         <!-- SMART ROOM RECOMMENDATION -->
 
@@ -259,14 +280,12 @@
                 🔍 Recommend a Room
             </button>
 
-
             <div
                 class="recommend-result"
                 id="recommendResult"
             ></div>
 
         </div>
-
 
         <!-- BOOKING FORM -->
 
@@ -281,7 +300,6 @@
                 required
             >
 
-
             <label>Email</label>
 
             <input
@@ -290,7 +308,6 @@
                 placeholder="Enter your email"
                 required
             >
-
 
             <label>Phone Number</label>
 
@@ -301,14 +318,11 @@
                 required
             >
 
-
             <label>Select Room</label>
 
             <select name="room_type" id="room_type" required>
 
-                <option value="">
-                    -- Select Room --
-                </option>
+                <option value="">-- Select Room --</option>
 
                 <option value="Standard Room">
                     Standard Room - ₹2,000/night
@@ -324,24 +338,23 @@
 
             </select>
 
-
-            <label>Check-in Date</label>
+            <label for="check_in">Check-in Date</label>
 
             <input
                 type="date"
+                id="check_in"
                 name="check_in"
                 required
             >
 
-
-            <label>Check-out Date</label>
+            <label for="check_out">Check-out Date</label>
 
             <input
                 type="date"
+                id="check_out"
                 name="check_out"
                 required
             >
-
 
             <label>Number of Guests</label>
 
@@ -355,7 +368,6 @@
                 required
             >
 
-
             <button
                 type="submit"
                 class="btn"
@@ -367,11 +379,9 @@
 
     </div>
 
-
     <footer>
         © 2026 Grand Stay. All Rights Reserved.
     </footer>
-
 
     <script>
 
@@ -395,7 +405,6 @@
 
             const bookingGuests =
                 document.getElementById("booking_guests");
-
 
             // Room data
 
@@ -421,7 +430,6 @@
 
             ];
 
-
             // Input validation
 
             if (!guests || guests < 1) {
@@ -434,7 +442,6 @@
                 return;
             }
 
-
             if (!budget || budget < 2000) {
 
                 result.style.display = "block";
@@ -445,16 +452,13 @@
                 return;
             }
 
-
-            // Find rooms that satisfy
-            // both guest capacity and budget
+            // Find rooms that satisfy guest capacity and budget
 
             const suitableRooms =
                 rooms.filter(room =>
                     guests <= room.capacity &&
                     room.price <= budget
                 );
-
 
             if (suitableRooms.length === 0) {
 
@@ -467,9 +471,7 @@
                 return;
             }
 
-
-            // Select the highest-priced
-            // suitable room within budget
+            // Select the highest-priced suitable room within budget
 
             suitableRooms.sort(
                 (a, b) => b.price - a.price
@@ -478,18 +480,15 @@
             const recommended =
                 suitableRooms[0];
 
-
             // Automatically select room
 
             roomSelect.value =
                 recommended.name;
 
-
             // Automatically copy guests
 
             bookingGuests.value =
                 guests;
-
 
             // Show recommendation
 
@@ -505,6 +504,27 @@
                 "This room fits your guest requirement and budget.";
 
         }
+
+        // Check-out must be after check-in
+
+        const checkInInput =
+            document.getElementById("check_in");
+
+        const checkOutInput =
+            document.getElementById("check_out");
+
+        checkInInput.addEventListener("change", function () {
+
+            checkOutInput.min = this.value;
+
+            if (
+                checkOutInput.value &&
+                checkOutInput.value <= this.value
+            ) {
+                checkOutInput.value = "";
+            }
+
+        });
 
     </script>
 
