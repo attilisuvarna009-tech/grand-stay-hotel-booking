@@ -1,10 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Payment - Grand Stay</title>
@@ -17,16 +17,35 @@
             box-sizing: border-box;
         }
 
+        html {
+            min-height: 100%;
+            background-color: #101b2b;
+        }
+
         body {
             font-family: Arial, sans-serif;
-            background: #f5f7f6;
+            min-height: 100vh;
             color: #222;
+
+            background-color: #101b2b;
+
+            background-image:
+                linear-gradient(
+                    rgba(5, 15, 30, 0.65),
+                    rgba(5, 15, 30, 0.72)
+                ),
+                url("https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=2000&q=85");
+
+            background-position: center center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
         }
 
         /* Navigation */
 
         nav {
-            background: #1f3d35;
+            background: rgba(12, 25, 43, 0.95);
             padding: 18px 50px;
 
             display: flex;
@@ -35,17 +54,18 @@
         }
 
         nav h2 {
-            color: white;
+            color: #f0c75e;
         }
 
         nav a {
             color: white;
             text-decoration: none;
             margin-left: 25px;
+            font-size: 16px;
         }
 
         nav a:hover {
-            text-decoration: underline;
+            color: #f0c75e;
         }
 
         /* Main Container */
@@ -59,17 +79,17 @@
         /* Payment Box */
 
         .payment-box {
-            background: white;
+            background: rgba(255, 255, 255, 0.97);
             padding: 35px;
 
             border-radius: 15px;
 
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
         }
 
         h1 {
             text-align: center;
-            color: #1f3d35;
+            color: #142b45;
             margin-bottom: 10px;
         }
 
@@ -83,27 +103,21 @@
 
         .booking-summary {
             background: #f2f5f4;
-
             padding: 20px;
-
             border-radius: 10px;
-
             margin-bottom: 25px;
         }
 
         .booking-summary h3 {
-            color: #1f3d35;
-
+            color: #142b45;
             margin-bottom: 15px;
         }
 
         .summary-row {
             display: flex;
-
             justify-content: space-between;
-
+            gap: 12px;
             padding: 8px 0;
-
             border-bottom: 1px solid #ddd;
         }
 
@@ -113,10 +127,8 @@
 
         .amount {
             font-size: 22px;
-
             font-weight: bold;
-
-            color: #1f3d35;
+            color: #c59b3a;
         }
 
         /* Payment Method */
@@ -127,65 +139,49 @@
 
         .payment-method label {
             display: block;
-
             margin-bottom: 10px;
-
             font-weight: bold;
         }
 
         .payment-method select {
             width: 100%;
-
             padding: 12px;
-
             border: 1px solid #ccc;
-
             border-radius: 7px;
-
             font-size: 15px;
+            background: white;
         }
 
         .payment-method select:focus {
             outline: none;
-
-            border-color: #1f3d35;
+            border-color: #c59b3a;
         }
 
         /* Pay Button */
 
         .pay-btn {
             width: 100%;
-
             padding: 13px;
-
-            background: #1f3d35;
-
+            background: #142b45;
             color: white;
-
             border: none;
-
             border-radius: 7px;
-
             font-size: 16px;
-
             cursor: pointer;
+            transition: 0.3s;
         }
 
         .pay-btn:hover {
-            background: #16302a;
+            background: #c59b3a;
         }
 
         /* Note */
 
         .note {
             text-align: center;
-
             color: #777;
-
             font-size: 13px;
-
             margin-top: 15px;
-
             line-height: 1.5;
         }
 
@@ -193,19 +189,47 @@
 
         footer {
             text-align: center;
-
             padding: 25px;
+            color: white;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+        }
 
-            color: #666;
+        /* Mobile Responsive */
+
+        @media (max-width: 600px) {
+
+            nav {
+                padding: 18px 20px;
+            }
+
+            nav a {
+                margin-left: 10px;
+                font-size: 14px;
+            }
+
+            .container {
+                width: 94%;
+                margin: 30px auto;
+            }
+
+            .payment-box {
+                padding: 25px;
+            }
+
+            .summary-row {
+                font-size: 14px;
+            }
+
+            body {
+                background-attachment: scroll;
+            }
         }
 
     </style>
 
 </head>
 
-
 <body>
-
 
     <!-- Navigation -->
 
@@ -216,13 +240,11 @@
         <div>
 
             <a href="/">Home</a>
-
             <a href="/rooms">Rooms</a>
 
         </div>
 
     </nav>
-
 
     <!-- Payment Container -->
 
@@ -230,13 +252,11 @@
 
         <div class="payment-box">
 
-
             <h1>Payment</h1>
 
             <p class="subtitle">
                 Complete your booking payment
             </p>
-
 
             <!-- Booking Summary -->
 
@@ -244,72 +264,53 @@
 
                 <h3>Booking Summary</h3>
 
-
                 <div class="summary-row">
 
                     <span>Customer</span>
 
-                    <strong>
-                        {{ name }}
-                    </strong>
+                    <strong>{{ name }}</strong>
 
                 </div>
-
 
                 <div class="summary-row">
 
                     <span>Room</span>
 
-                    <strong>
-                        {{ room_type }}
-                    </strong>
+                    <strong>{{ room_type }}</strong>
 
                 </div>
-
 
                 <div class="summary-row">
 
                     <span>Check-in</span>
 
-                    <strong>
-                        {{ check_in }}
-                    </strong>
+                    <strong>{{ check_in }}</strong>
 
                 </div>
-
 
                 <div class="summary-row">
 
                     <span>Check-out</span>
 
-                    <strong>
-                        {{ check_out }}
-                    </strong>
+                    <strong>{{ check_out }}</strong>
 
                 </div>
-
 
                 <div class="summary-row">
 
                     <span>Guests</span>
 
-                    <strong>
-                        {{ guests }}
-                    </strong>
+                    <strong>{{ guests }}</strong>
 
                 </div>
-
 
                 <div class="summary-row">
 
                     <span>Nights</span>
 
-                    <strong>
-                        {{ nights }}
-                    </strong>
+                    <strong>{{ nights }}</strong>
 
                 </div>
-
 
                 <div class="summary-row">
 
@@ -323,14 +324,12 @@
 
             </div>
 
-
             <!-- Payment Form -->
 
             <form
                 method="POST"
                 action="/confirm_booking"
             >
-
 
                 <!-- Hidden Booking Details -->
 
@@ -388,7 +387,6 @@
                     value="{{ total_amount }}"
                 >
 
-
                 <!-- Payment Method -->
 
                 <div class="payment-method">
@@ -396,7 +394,6 @@
                     <label for="payment_method">
                         Select Payment Method
                     </label>
-
 
                     <select
                         id="payment_method"
@@ -424,7 +421,6 @@
 
                 </div>
 
-
                 <!-- Pay Button -->
 
                 <button
@@ -435,9 +431,7 @@
                     Pay Now
                 </button>
 
-
             </form>
-
 
             <!-- Payment Note -->
 
@@ -451,11 +445,9 @@
 
             </p>
 
-
         </div>
 
     </div>
-
 
     <!-- Footer -->
 
@@ -464,7 +456,6 @@
         © 2026 Grand Stay. All Rights Reserved.
 
     </footer>
-
 
 </body>
 
