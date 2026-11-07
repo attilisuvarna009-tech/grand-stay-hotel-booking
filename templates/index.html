@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grand Stay Hotel</title>
+
+    <title>Welcome | Grand Stay Hotel</title>
 
     <style>
         * {
@@ -14,263 +15,264 @@
         }
 
         body {
+            min-height: 100vh;
             font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-        }
 
-        nav {
-            background-color: #1f2937;
-            padding: 20px 50px;
+            background:
+                linear-gradient(
+                    rgba(7, 17, 31, 0.78),
+                    rgba(7, 17, 31, 0.82)
+                ),
+                url("https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=2000&q=85")
+                center/cover fixed;
+
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        nav h2 {
-            color: white;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin-left: 25px;
-            font-weight: bold;
-        }
-
-        nav a:hover {
-            color: #d4a017;
-        }
-
-        .hero {
-            min-height: 500px;
-            background: linear-gradient(
-                rgba(0,0,0,0.5),
-                rgba(0,0,0,0.5)
-            ),
-            url("https://images.unsplash.com/photo-1566073771259-6a8506099945")
-            center/cover;
-
-            display: flex;
             justify-content: center;
-            align-items: center;
-            text-align: center;
+
+            padding: 28px 16px;
             color: white;
-            padding: 30px 15px;
         }
 
-        .hero h1 {
-            font-size: 55px;
-            margin-bottom: 15px;
-        }
-
-        .hero p {
-            font-size: 20px;
-            margin-bottom: 25px;
-        }
-
-        .btn {
-            display: inline-block;
-            background-color: #d4a017;
-            color: white;
-            padding: 14px 30px;
-            text-decoration: none;
-            border-radius: 6px;
-            font-size: 17px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-
-        .btn:hover {
-            background-color: #b8860b;
-        }
-
-        .rooms {
-            padding: 50px;
+        .welcome-container {
+            width: 100%;
+            max-width: 900px;
             text-align: center;
         }
 
-        .rooms h2 {
-            font-size: 32px;
-            margin-bottom: 30px;
+        .brand {
+            margin-bottom: 34px;
         }
 
-        .room-container {
-            display: flex;
-            justify-content: center;
-            gap: 25px;
-            flex-wrap: wrap;
+        .hotel-icon {
+            font-size: 42px;
+            margin-bottom: 8px;
         }
 
-        .room {
-            background: white;
-            width: 300px;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        .brand h1 {
+            font-size: clamp(36px, 6vw, 54px);
+            letter-spacing: 3px;
+            color: white;
         }
 
-        .room h3 {
+        .tagline {
+            color: #e7c477;
+            margin-top: 10px;
+            letter-spacing: 2px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .welcome-panel {
+            background: rgba(255, 255, 255, 0.96);
+            color: #1f2937;
+
+            border-radius: 18px;
+            padding: 38px;
+
+            box-shadow: 0 18px 55px rgba(0, 0, 0, 0.35);
+        }
+
+        .welcome-panel h2 {
+            font-size: clamp(23px, 4vw, 31px);
             margin-bottom: 10px;
         }
 
-        .room p {
-            margin: 8px;
-            color: #555;
-        }
-
-        .review-section {
-            background: white;
-            text-align: center;
-            padding: 50px 20px;
-            margin-top: 20px;
-        }
-
-        .review-section h2 {
-            color: #1f2937;
-            font-size: 30px;
-            margin-bottom: 12px;
-        }
-
-        .review-section p {
-            color: #555;
-            font-size: 16px;
-            margin-bottom: 22px;
+        .welcome-panel > p {
+            color: #64748b;
+            margin-bottom: 30px;
             line-height: 1.6;
         }
 
-        footer {
-            background-color: #1f2937;
+        .portal-options {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 22px;
+        }
+
+        .portal-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+
+            padding: 30px 22px;
+
+            text-decoration: none;
+            color: #1f2937;
+            background: white;
+
+            transition: transform 0.2s ease,
+                        box-shadow 0.2s ease;
+        }
+
+        .portal-card:hover {
+            transform: translateY(-5px);
+
+            box-shadow: 0 12px 28px rgba(15, 23, 42, 0.13);
+
+            border-color: #d4a017;
+        }
+
+        .portal-icon {
+            width: 68px;
+            height: 68px;
+
+            margin: 0 auto 17px;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #f4ead0;
+
+            font-size: 31px;
+        }
+
+        .portal-card h3 {
+            font-size: 23px;
+            margin-bottom: 10px;
+        }
+
+        .portal-card p {
+            color: #64748b;
+            line-height: 1.5;
+
+            min-height: 46px;
+            margin-bottom: 20px;
+        }
+
+        .portal-button {
+            display: inline-block;
+
+            background: #1f2937;
             color: white;
-            text-align: center;
-            padding: 25px 15px;
-            margin-top: 30px;
+
+            padding: 12px 23px;
+
+            border-radius: 7px;
+            font-weight: bold;
         }
 
-        footer p {
-            margin-bottom: 15px;
+        .portal-card.admin .portal-button {
+            background: #b8890f;
         }
 
-        @media (max-width: 700px) {
-            nav {
-                padding: 20px;
-                justify-content: center;
-                text-align: center;
+        .footer-note {
+            margin-top: 25px;
+            color: #e5e7eb;
+            font-size: 13px;
+        }
+
+        @media (max-width: 620px) {
+
+            .welcome-panel {
+                padding: 28px 18px;
             }
 
-            nav div {
-                display: flex;
-                justify-content: center;
-                flex-wrap: wrap;
-                gap: 15px;
+            .portal-options {
+                grid-template-columns: 1fr;
             }
 
-            nav a {
-                margin-left: 0;
-            }
-
-            .hero h1 {
-                font-size: 36px;
-            }
-
-            .hero p {
-                font-size: 17px;
-            }
-
-            .rooms {
-                padding: 35px 15px;
-            }
-
-            .room {
-                width: 100%;
-                max-width: 350px;
+            .portal-card p {
+                min-height: 0;
             }
         }
+
     </style>
 </head>
 
 <body>
 
-    <nav>
-        <h2>🏨 Grand Stay</h2>
+    <main class="welcome-container">
 
-        <div>
-            <a href="/">Home</a>
-            <a href="/rooms">Rooms</a>
-            <a href="/booking">Book Now</a>
-            <a href="/review">Customer Reviews</a>
-        </div>
-    </nav>
+        <!-- GRAND STAY BRANDING -->
 
-    <section class="hero">
+        <header class="brand">
 
-        <div>
-            <h1>Welcome to Grand Stay</h1>
+            <div class="hotel-icon">🏨</div>
 
-            <p>
-                Comfortable rooms. Beautiful experience.
+            <h1>GRAND STAY</h1>
+
+            <p class="tagline">
+                HOTEL ROOM BOOKING SYSTEM
             </p>
 
-            <a href="/booking" class="btn">
-                Book Your Room
-            </a>
-        </div>
+        </header>
 
-    </section>
 
-    <section class="rooms">
+        <!-- WELCOME SECTION -->
 
-        <h2>Our Rooms</h2>
+        <section class="welcome-panel">
 
-        <div class="room-container">
+            <h2>Welcome to Grand Stay</h2>
 
-            <div class="room">
-                <h3>Standard Room</h3>
-                <p>Comfortable room for 2 guests</p>
-                <p><strong>₹2,000 / night</strong></p>
+            <p>
+                Please choose how you would like to continue.
+            </p>
+
+
+            <!-- CUSTOMER AND ADMIN OPTIONS -->
+
+            <div class="portal-options">
+
+
+                <!-- CUSTOMER PORTAL -->
+
+                <a class="portal-card customer" href="/customer">
+
+                    <div class="portal-icon">
+                        👤
+                    </div>
+
+                    <h3>Customer</h3>
+
+                    <p>
+                        Explore our rooms, make a booking
+                        and enjoy your stay.
+                    </p>
+
+                    <span class="portal-button">
+                        Enter Customer Portal
+                    </span>
+
+                </a>
+
+
+                <!-- ADMIN PORTAL -->
+
+                <a class="portal-card admin" href="/admin/login">
+
+                    <div class="portal-icon">
+                        🔐
+                    </div>
+
+                    <h3>Admin</h3>
+
+                    <p>
+                        Access the administration area
+                        to manage hotel operations.
+                    </p>
+
+                    <span class="portal-button">
+                        Enter Admin Portal
+                    </span>
+
+                </a>
+
+
             </div>
 
-            <div class="room">
-                <h3>Deluxe Room</h3>
-                <p>Spacious room with AC and TV</p>
-                <p><strong>₹3,000 / night</strong></p>
-            </div>
+        </section>
 
-            <div class="room">
-                <h3>Luxury Suite</h3>
-                <p>Premium room for a luxury stay</p>
-                <p><strong>₹5,000 / night</strong></p>
-            </div>
 
-        </div>
+        <!-- FOOTER -->
 
-    </section>
-
-    <section class="review-section">
-
-        <h2>Share Your Experience ⭐</h2>
-
-        <p>
-            Stayed with us? We would love to hear about your experience.
-            Rate your stay and share your valuable feedback!
+        <p class="footer-note">
+            © 2026 Grand Stay Hotel | All rights reserved.
         </p>
 
-        <a href="/review" class="btn">
-            ⭐ Rate Your Stay
-        </a>
-
-    </section>
-
-    <footer>
-
-        <p>© 2026 Grand Stay Hotel | Hotel Room Booking System</p>
-
-        <a href="/review" class="btn">
-            Write a Review
-        </a>
-
-    </footer>
+    </main>
 
 </body>
 </html>
